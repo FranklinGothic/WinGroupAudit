@@ -1,4 +1,5 @@
 import os, subprocess
+from group_members import group_members
 
 class shares:
     def __init__(self):
@@ -21,6 +22,7 @@ class shares:
         for share_name, g_list in self.shares.items():
             print(f"Who has permissions to <{share_name}>:")
             for group_name in g_list:
+                group_members(group_name)
                 print(f"\t  - {group_name}")
 
     def get_group_list(self, share):
