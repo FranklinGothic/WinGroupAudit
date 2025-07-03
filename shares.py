@@ -12,7 +12,7 @@ class shares:
                         stdout=subprocess.PIPE, text=True)
         
         output, _ = response.communicate()    # Wait for the process to finish and get the output
-        shares = output.strip().split()
+        shares = output.strip().splitlines()
         groups = self.get_groups(shares)
 
         self.write_shares(shares, groups)
