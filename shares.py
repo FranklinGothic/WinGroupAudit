@@ -13,21 +13,20 @@ class shares:
         
         output, _ = response.communicate()    # Wait for the process to finish and get the output
         shares = output.strip().splitlines()
-        groups = self.get_groups(shares)
 
-        self.write_shares(shares, groups)
-
-    def get_groups(self, shares):
         for share in shares:
-            command = fr"Get-SmbShareAccess -Name '{share}'"
-            response = subprocess.Popen(f"powershell.exe -Command \"& {{ {command} }}\"", 
-                            stdout=subprocess.PIPE, text=True)
+            group_list = self.get_group_list(share)
+            self.shares[share] = group_list
+        
+        print(self.shares)
 
-            groups, _ = response.communicate()
-            print(groups)
+    def get_group_list(self, share):
+        command = fr"Get-SmbShareAccess -Name '{share}' | Select-Object -ExpandProperty AccountName"
+        response = subprocess.Popen(f"powershell.exe -Command \"& {{ {command} }}\"", 
+                        stdout=subprocess.PIPE, text=True)
 
-    def write_shares(self, shares, groups):
-        for share in shares:
-            pass
+        output, _ = response.communicate()
+        group_list = output.strip().splitlines()
+        return group_list
 
 shares()
