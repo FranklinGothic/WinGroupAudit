@@ -18,7 +18,10 @@ class shares:
             group_list = self.get_group_list(share)
             self.shares[share] = group_list
         
-        print(self.shares)
+        for share_name, g_list in self.shares.items():
+            print(f"Who has permissions to <{share_name}>:")
+            for group_name in g_list:
+                print(f"\t  - {group_name}")
 
     def get_group_list(self, share):
         command = fr"Get-SmbShareAccess -Name '{share}' | Select-Object -ExpandProperty AccountName"
