@@ -1,16 +1,21 @@
 import os
 from shares import shares
+from find_group import find
 
 class main:
     def __init__(self):
         """
-        Constructs the main object
+        Constructs the main object and conducts the audit
         """
         self.audit_types = {"Shares": shares}
 
         self.audit_type_choice = self.get_audit_type()
         self.group_choice = self.get_group()
-        self.conduct_audit()
+
+
+        for type in self.audit_types.keys():
+            if type == self.audit_type_choice:
+                self.conduct_audit(type)
     
     def get_audit_type(self):
         """
@@ -39,11 +44,12 @@ class main:
 
         return choice
     
-    def conduct_audit(self):
-        for type in self.audit_types.keys():
-            if type == self.audit_type_choice:
-                audit_instance = self.audit_types[type](self.group_choice)
-    
+    def conduct_audit(self, type):
+        audit_instance = self.audit_types[type]()
+        results = audit_instance.get_audit_results()
+
+        find_group = find(results, self.group_choice)
+
     def clear_screen(self):
         """
         clears screen - terminal

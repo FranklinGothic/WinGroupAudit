@@ -3,7 +3,7 @@ import time
 from group_members import group_members
 
 class shares:
-    def __init__(self, group_name):
+    def __init__(self):
         self.shares_dictionary = {}
         
         self.selected_shares = self.get_share_selection()
@@ -80,7 +80,7 @@ class shares:
                         keep_shares.append(share)
 
                 if not a_share:
-                    print("Not a share. Please make sure share exists.")
+                    print("❌ Not a share. Please make sure share exists.")
                     time.sleep(2)
                     self.clear_screen()
                     continue
@@ -158,3 +158,5 @@ class shares:
         """
         os.system("cls")
 
+    def get_audit_results(self):
+        return self.shares_dictionary
