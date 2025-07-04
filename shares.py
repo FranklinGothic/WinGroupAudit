@@ -2,9 +2,8 @@ import os, subprocess
 from group_members import group_members
 
 class shares:
-    def __init__(self):
-        self.shares = {}
-
+    def __init__(self, group_name):
+        self.shares_with_children = {}
         self.get_shares()
     
     def get_shares(self):
@@ -17,17 +16,17 @@ class shares:
         shares = output.strip().splitlines()
 
         for share in shares:
-            group_list = self.get_group_list(share)
+            group_list = self.get_smb_group_list(share)
             self.shares[share] = group_list
-        
+        """
         for share_name, g_list in self.shares.items():
             print(f"Who has permissions to <{share_name}>:")
             for group_name in g_list:
                 print(f"\t  - {group_name}")
                 group_members.get_members(group_name, 2)
             print("\n")
-
-    def get_group_list(self, share):
+        """
+    def get_smb_group_list(self, share):
         #Get all groups associated with that share
         share_group_command = fr"Get-SmbShareAccess -Name '{share}' | ForEach-Object {{ $_.AccountName -replace '^.*\\', '' }}"
         response = subprocess.Popen(f"powershell.exe -Command \"& {{ {share_group_command} }}\"", 
@@ -45,5 +44,3 @@ class shares:
             if output.strip() == "group":
                 groups_to_keep.append(group)
         return groups_to_keep
-
-shares()
