@@ -8,7 +8,39 @@ class shares:
         
         self.selected_shares = self.get_share_selection()
         self.get_share_tree()
+        self.print_shares_dictionary()  # Replace the print statement with this
+
+    def print_shares_dictionary(self):
+        """
+        Prints the shares dictionary in a formatted, readable way
+        """
+        print("\n" + "="*60)
+        print("SHARE AUDIT RESULTS")
+        print("="*60)
+        
+        for share_name, groups in self.shares_dictionary.items():
+            print(f"\n📁 SHARE: {share_name}")
+            print("-" * (len(share_name) + 8))
+                
+            for group_name, nested_groups in groups.items():
+                print(f"   👥 GROUP: {group_name}")
+                
+                if not nested_groups:
+                    print("      └── No nested groups")
+                else:
+                    self._print_nested_groups(nested_groups, indent="      ")
     
+        print("\n" + "="*60)
+
+    def _print_nested_groups(self, groups_dict, indent=""):
+        """
+        Recursively prints nested groups with proper indentation
+        """
+        for group_name, sub_groups in groups_dict.items():
+            print(f"{indent}└── {group_name}")
+            if sub_groups:
+                self._print_nested_groups(sub_groups, indent + "    ")
+
     def get_share_selection(self):
         self.clear_screen()
         #Gets all shares - ALL NAMES
@@ -20,9 +52,13 @@ class shares:
         shares = output.strip().splitlines()
 
 
+        return_shares = self.user_share_selection(shares)
+        return return_shares
+
+    def user_share_selection(self, shares):
         keep_shares = []
         for print_share in shares:
-            print(f"• {print_share}")
+            print(f"• 📁 {print_share}")
         print("Which shares would you like to audit?")
         print("[A] - ALL, [S] - Select specific shares, [R] - Select a range of shares")
 
@@ -34,7 +70,7 @@ class shares:
             self.clear_screen()
             while True:
                 for print_share in shares:
-                    print(f"• {print_share}")
+                    print(f"• 📁 {print_share}")
                 print("Please select one share at a time.")
                 share_choice = input("")
                 a_share = False
@@ -56,52 +92,39 @@ class shares:
                     break
     
         elif choice.capitalize() == "R":
-            self.clear_screen()
-            for print_share in shares:
-                print(f"• {print_share}")
-            print("Give a range of shares; e.x. (3-6)")
-            range_input = input("")
-            range_start = range_input[:range_input.find("-")]
-            range_end = range_input[range_input.find("-")+1:]
+            while True:
+                self.clear_screen()
+                for print_share in shares:
+                    print(f"• 📁 {print_share}")
+                print("Give a range of shares; e.x. (3-6)")
+                range_input = input("")
+                range_start = range_input[:range_input.find("-")]
+                range_end = range_input[range_input.find("-")+1:]
+                if int(range_start) > len(shares) + 1 or int(range_end) > len(shares) + 1 or int(range_start) > int(range_end):
+                    print("❌ Please enter a valid range.")
+                    time.sleep(3)
+                else:
+                    break
+
 
             index = 1
             for share in shares:
                 if int(range_start) <= index <= int(range_end):
                     keep_shares.append(share)
                 index += 1
-        print(keep_shares)
+        else:
+            print("❌ Please choose one of our demonstated options.")
+            time.sleep(3)
+            self.clear_screen()
+            keep_shares = self.user_share_selection(shares)
+        self.clear_screen()
         return keep_shares
+        
+    
     
     def get_share_tree(self):
         for share in self.selected_shares:
-            group_list = self.get_smb_group_list(share)
-            self.shares[share] = group_list
-
-        for share_name, g_list in self.shares.items():
-            print(f"Who has permissions to <{share_name}>:")
-            for group_name in g_list:
-                print(f"\t  - {group_name}")
-                group_members.get_members(group_name, 2)
-            print("\n")
-
-    def clear_screen(self):
-        """
-        clears screen - terminal
-        """
-        os.system("cls")
-
-
-"""
-        for share in shares:
-            group_list = self.get_smb_group_list(share)
-            self.shares[share] = group_list
-
-        for share_name, g_list in self.shares.items():
-            print(f"Who has permissions to <{share_name}>:")
-            for group_name in g_list:
-                print(f"\t  - {group_name}")
-                group_members.get_members(group_name, 2)
-            print("\n")
+            self.get_smb_group_list(share)
 
     def get_smb_group_list(self, share):
         #Get all groups associated with that share
@@ -120,5 +143,18 @@ class shares:
             output, _ = response.communicate()
             if output.strip() == "group":
                 groups_to_keep.append(group)
-        return groups_to_keep
+        
+        self.shares_dictionary[share] = self.get_nested_groups(groups_to_keep)
+
+    def get_nested_groups(self, resolved_groups):
+        group_dict = {}
+        for group in resolved_groups:
+            group_dict[group] = group_members.get_members(group)
+        return group_dict 
+
+    def clear_screen(self):
         """
+        clears screen - terminal
+        """
+        os.system("cls")
+

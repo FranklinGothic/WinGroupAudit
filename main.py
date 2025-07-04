@@ -24,7 +24,7 @@ class main:
 
         choice = input("")
         while choice.capitalize() not in self.audit_types.keys():
-            print("False input. Please select one of our options!")
+            print("False input 💔. Please select one of our options!")
             choice = input("")
 
         self.clear_screen()
@@ -34,7 +34,7 @@ class main:
         """
         Has the user give the name of the group they are auditing - terminal based
         """
-        print("What is the name of the group you are auditing?")
+        print("What is the name of the 👥 group you are auditing?")
         choice = input("")
 
         return choice
