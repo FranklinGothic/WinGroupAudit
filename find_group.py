@@ -3,10 +3,26 @@ class find:
         self.unfiltered_dict = unfiltered_dict
         self.wanted_group = wanted_group
         self.filtered_dict = {}
-        self.find_group()
         print(self.filtered_dict)
 
+    def find_group(self):
+        for share, groups in self.unfiltered_dict.items():
+            self.filtered_dict[share] = self.search_nested_groups(groups)
 
+    def search_nested_groups(self, groups):
+        filtered_groups = {}
+        for group in groups:
+            if group == self.wanted_group:
+                filtered_groups[groups] = group
+                return filtered_groups
+            else:
+                return self.search_nested_groups(group)
+            
+    def get_search_results(self):
+        return self.filtered_dict
+                
+
+    """
     #SUPER JANK PLEASE FOR LOVE OF GOD FIX
     def find_group(self):
         for share, groups in self.unfiltered_dict.items():
@@ -26,3 +42,4 @@ class find:
                 nested_paths = self.search_nested_groups(sub_groups, new_path)
                 found_path.extend(nested_paths)
         return found_path
+        """

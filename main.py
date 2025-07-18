@@ -49,6 +49,9 @@ class main:
         results = audit_instance.get_audit_results()
 
         find_group = find(results, self.group_choice)
+        find_group.find_group()
+        results = find_group.get_search_results()
+        print(results)
 
     def clear_screen(self):
         """
