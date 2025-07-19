@@ -1,0 +1,12 @@
+share_cmds:
+    get_all_shares: |
+        Get-SmbShare | Where-Object {$_.Name -notmatch '\$$'} | Select-Object -ExpandProperty Name
+    associated_groups: |
+        Get-SmbShareAccess -Name '{option}' | ForEach-Object {{ $_.AccountName -replace '^.*\\', '' }}
+group_cmds:
+    group_filtering: |
+        Get-ADObject -Filter {{ SamAccountName -eq '{option}' }} -Properties objectClass | Select-Object -ExpandProperty ObjectClass
+    get_group_children: |
+        Get-ADGroupMember -Identity '{option}' | Where-Object {{$_.objectClass -eq 'group'}} | Select-Object -ExpandProperty Name
+    check_group_exists: |
+        Get-ADGroup -Identity {option} | Select-Object -ExpandProperty ObjectClass
