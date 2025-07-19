@@ -24,9 +24,15 @@ class group_scanner:
         child_groups = {}
         
         if children_output:
-            children_list = children_output.splitlines()
+            unfiltered_children_list = children_output.splitlines()
+            filtered_children_list = []
+            filter_children = commands["group_cmds"]["group_filtering"]
+            for unfiltered_child in unfiltered_children_list:
+                results = command.powershell_execute(filter_children.format(option=unfiltered_child))
+                if results and results == "group":
+                    filtered_children_list.append(unfiltered_child)
             
-            for child in children_list:
+            for child in filtered_children_list:
                 child = child.strip()
                 if child:
                     child_groups[child] = group_scanner.get_nested_groups(child, visited.copy())
