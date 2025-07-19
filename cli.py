@@ -1,4 +1,3 @@
-from share_scanner import shares
 from command_executor import command
 import time
 
