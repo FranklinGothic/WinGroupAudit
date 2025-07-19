@@ -1,12 +1,21 @@
 share_cmds:
+    # Get all non-administrative shares (excludes shares ending with $)
     get_all_shares: |
         Get-SmbShare | Where-Object {$_.Name -notmatch '\$$'} | Select-Object -ExpandProperty Name
+    
+    # Get all groups/users with access to a specific share
     associated_groups: |
         Get-SmbShareAccess -Name '{option}' | ForEach-Object {{ $_.AccountName -replace '^.*\\', '' }}
+
 group_cmds:
+    # Check if an object is a group by examining its object class - THIS ONE IS NOT GOING TO BE USED SO POSSIBLY DELETE
     group_filtering: |
         Get-ADObject -Filter {{ SamAccountName -eq '{option}' }} -Properties objectClass | Select-Object -ExpandProperty ObjectClass
+    
+    # Get all nested groups within a parent group (not users)
     get_group_children: |
         Get-ADGroupMember -Identity '{option}' | Where-Object {{$_.objectClass -eq 'group'}} | Select-Object -ExpandProperty Name
+    
+    # Verify that a group exists in Active Directory
     check_group_exists: |
         Get-ADGroup -Identity {option} | Select-Object -ExpandProperty ObjectClass

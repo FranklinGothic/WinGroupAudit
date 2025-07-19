@@ -180,7 +180,7 @@ class share_cli:
                 
                 # Extract the selected shares (convert to 0-based indexing)
                 selected_shares = self.share_list[range_start-1:range_end]
-                
+                command.clear_screen()
                 print(f"✅ Selected {len(selected_shares)} shares:")
                 for share in selected_shares:
                     print(f"  • {share}")

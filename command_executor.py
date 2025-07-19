@@ -1,5 +1,5 @@
 import os, subprocess
-import yaml
+import yaml, json
 
 class command:
 
@@ -52,3 +52,11 @@ class command:
             commands = yaml.safe_load(file)
 
         return commands
+    
+    @staticmethod
+    def dump_to_json(audit_data):
+        """
+        Opens the json file and dumps all data into the file
+        """
+        with open("audit_results.json", "w") as file:
+            json.dump(audit_data, file, indent=2)

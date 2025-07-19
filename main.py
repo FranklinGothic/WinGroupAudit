@@ -1,5 +1,5 @@
 from cli import genrl_cli, share_cli
-from share_scanner import shares
+from share_scanner import share_scanner
 
 class main:
     def __init__(self):
@@ -25,6 +25,9 @@ class main:
             case "Shares": 
                 share_cli_UI = share_cli()
                 shares_to_audit = share_cli_UI.get_share_selection()
+
+                scan_shares = share_scanner(shares_to_audit)
+                scan_shares.get_share_groups()
 
 
 if __name__ == "__main__":
