@@ -51,6 +51,8 @@ class command:
         with open("system_cmds.yaml", "r") as file:
             commands = yaml.safe_load(file)
 
+        print("\nExtracted commands from yaml file!")
+
         return commands
     
     @staticmethod
@@ -60,3 +62,5 @@ class command:
         """
         with open("audit_results.json", "w") as file:
             json.dump(audit_data, file, indent=2)
+        
+        print("\nDumped to json!")
