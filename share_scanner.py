@@ -17,7 +17,11 @@ class share_scanner:
             share_groups_output = command.powershell_execute(share_groups_cmd.format(option=share_to_audit))
             share_groups = share_groups_output.splitlines()
 
+            self.shares_dictionary[share_to_audit] = {}
+
             for share_group in share_groups:
-                self.shares_dictionary[share_to_audit] = group_scanner.get_nested_groups(share_group)
+                share_group = share_group.strip()
+                if share_group:
+                    self.shares_dictionary[share_to_audit][share_group] = group_scanner.get_nested_groups(share_group)
         
-        command.dump_to_json(self.shares_dictionary)
+        return self.shares_dictionary
