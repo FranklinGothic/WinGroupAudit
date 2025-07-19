@@ -3,7 +3,7 @@ import os, subprocess
 class command:
 
     @staticmethod
-    def powershell_execute(ps_cmd, option=None):
+    def powershell_execute(ps_cmd):
         """
         Executes powershell commands
         """
@@ -14,7 +14,7 @@ class command:
         return command.validate_execution(output, response.returncode, error)
     
     @staticmethod
-    def terminal_execute(tm_cmd, option=None):
+    def terminal_execute(tm_cmd):
         """
         Executes commands through the command line
         """

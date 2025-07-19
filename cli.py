@@ -36,7 +36,8 @@ class cli:
             commands = yaml.safe_load(file)
         check_cmd = commands["group_cmds"]["check_group_exists"]
 
-        result = command.powershell_execute(check_cmd, choice)
+        formatted_check_cmd = check_cmd.format(option=choice)
+        result = command.powershell_execute(formatted_check_cmd)
         if result and result == "group":
             return result
         else:
