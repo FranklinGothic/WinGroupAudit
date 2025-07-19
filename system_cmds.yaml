@@ -5,7 +5,7 @@ share_cmds:
     
     # Get all groups/users with access to a specific share
     associated_groups: |
-        Get-SmbShareAccess -Name '{option}' | ForEach-Object {{ $_.AccountName -replace '^.*\\', '' }}
+        Get-SmbShareAccess -Name '{option}' | Where-Object { Get-ADGroup -Filter "SamAccountName -eq '$($_.AccountName -replace '^.*\\', '')'" -ErrorAction SilentlyContinue } | Select-Object -ExpandProperty AccountName
 
 group_cmds:
     # Check if an object is a group by examining its object class - THIS ONE IS NOT GOING TO BE USED SO POSSIBLY DELETE
