@@ -1,4 +1,5 @@
 import os, subprocess
+import yaml
 
 class command:
 
@@ -18,7 +19,7 @@ class command:
         """
         Executes commands through the command line
         """
-        response = subprocess.Popen(f"{tm_cmd}", shell=True, 
+        response = subprocess.Popen(tm_cmd, shell=True, 
                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         output, error = response.communicate()
 
@@ -41,3 +42,13 @@ class command:
         Clears terminal screen for cleanliness
         """
         os.system("cls")
+
+    @staticmethod
+    def get_commands_yaml():
+        """
+        Opens the yaml command file and returns all of the commands
+        """
+        with open("system_cmds.yaml", "r") as file:
+            commands = yaml.safe_load(file)
+
+        return commands

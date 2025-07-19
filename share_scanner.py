@@ -1,2 +1,6 @@
+from command_executor import command
+import time
+
 class shares:
-    pass
+    def __init__(self):
+        self.shares_dictionary = {}
