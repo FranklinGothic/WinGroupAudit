@@ -13,26 +13,38 @@ class filter_groups:
         """
         for parent, child_groups in self.full_audit.items():
             if child_groups:
+                all_paths = []
                 for child_group, nested_data in child_groups.items(): 
                     if child_group:
-                        path_start = []
-                        path_start.append(child_group)
+                        paths = self._get_all_paths(nested_data, [child_group])
+                        all_paths.extend(paths)
 
-                        final_path = self._filter_nested_groups(nested_data, path_start)
-                        if any(group in final_path for group in self.wanted_groups):
-                            self.filtered_audit[parent] = final_path
-    
+                matching_paths = []
+                for path in all_paths:
+                    if any(group in path for group in self.wanted_groups):
+                        matching_paths.append(path)
+                
+                if matching_paths:
+                    self.filtered_audit[parent] = matching_paths
+        
         return self.filtered_audit
 
-    def _filter_nested_groups(self, nested_dict, current_path):
+    def _get_all_paths(self, nested_dict, current_path):
         """
-        This will look through the nested groups and add them to the path
+        This will look through the nested groups recusively and return all possible paths in that group
         """
-        processing_path = current_path.copy() 
-        
-        if isinstance(nested_dict, dict):
+        all_paths = []
+
+        if isinstance(nested_dict, dict) and nested_dict:
             for group_name, sub_nested in nested_dict.items():
-                processing_path.append(group_name)
-                return self._filter_nested_groups(sub_nested, processing_path)
+                new_path = current_path + [group_name]
+                
+                deeper_paths = self._get_all_paths(sub_nested, new_path)
+                if deeper_paths:
+                    all_paths.extend(deeper_paths)
+                else:
+                    all_paths.append(new_path)
+        else:
+            all_paths.append(current_path)
         
-        return processing_path
+        return all_paths

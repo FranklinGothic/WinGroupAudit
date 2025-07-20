@@ -1,42 +1,4 @@
 {
-  "recusive": {
-    "One": {
-      "Three": {
-        "Two": {
-          "One": {}
-        }
-      }
-    }
-  },
-  "SYSVOL": {
-    "Everyone": {},
-    "Administrators": {
-      "Domain Admins": {},
-      "Enterprise Admins": {}
-    },
-    "Authenticated Users": {}
-  },
-  "temp share": {
-    "Everyone": {},
-    "Administrators": {
-      "Domain Admins": {},
-      "Enterprise Admins": {}
-    }
-  },
-  "NETLOGON": {
-    "Everyone": {},
-    "Administrators": {
-      "Domain Admins": {},
-      "Enterprise Admins": {}
-    }
-  },
-  "Users": {
-    "Administrators": {
-      "Domain Admins": {},
-      "Enterprise Admins": {}
-    },
-    "Everyone": {}
-  },
   "TOP PRIO": {
     "please": {
       "please_sub": {
@@ -55,16 +17,6 @@
           "test": {}
         }
       }
-    }
-  },
-  "Windows Media Player": {
-    "Administrators": {
-      "Domain Admins": {},
-      "Enterprise Admins": {}
-    },
-    "Administrator": {},
-    "fruits": {
-      "test": {}
     }
   }
 }
