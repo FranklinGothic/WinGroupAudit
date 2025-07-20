@@ -34,6 +34,7 @@ class main:
         
         command.dump_to_json(results, "full")
 
+        input("\nFilter data?")
         filter = filter_groups(self.chosen_groups)
         filtered_data = filter.filter_groups()
         command.dump_to_json(filtered_data, "filtered")
