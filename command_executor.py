@@ -8,11 +8,14 @@ class command:
         """
         Executes powershell commands
         """
-        response = subprocess.Popen(f"powershell.exe -Command \"& {ps_cmd}\"", 
-                        stdout=subprocess.PIPE, text=True)
-        output, error = response.communicate()
-
-        return command.validate_execution(output, response.returncode, error)
+        result = subprocess.run(
+            f"powershell.exe -Command \"& {{ {ps_cmd} }}\"",
+            capture_output=True,
+            text=True,
+            timeout=30
+        )
+        
+        return command.validate_execution(result.stdout, result.returncode, result.stderr)
     
     @staticmethod
     def terminal_execute(tm_cmd):
