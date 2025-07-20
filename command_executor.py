@@ -34,6 +34,7 @@ class command:
             print(f"command failed with return code {code}: {error}")
             return None
 
+        print(f"Command succeeded with return code {code}")
         return output.strip()
     
     @staticmethod

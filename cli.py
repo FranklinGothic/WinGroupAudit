@@ -49,7 +49,7 @@ class share_cli:
         self.keep_shares = []
         self.share_list = None
     
-    def print_shares(self):
+    def _print_shares(self):
         """
         Prints out the shares in order so the user can add them to their audit
         """
@@ -68,7 +68,7 @@ class share_cli:
         result = command.powershell_execute(get_shares)
         self.share_list = result.splitlines()
 
-        self.print_shares()
+        self._print_shares()
         print("Which shares would you like to audit?")
         print("[A] - ALL, [S] - Select specific shares, [R] - Select a range of shares")
 
@@ -77,15 +77,15 @@ class share_cli:
         if choice.capitalize() == "A" or choice.capitalize() == "Y" or choice == "":
             return self.share_list
         elif choice.capitalize() == "S":
-            return self.select_shares()
+            return self._select_shares()
         elif choice.capitalize() == "R":
-            return self.range_of_shares()
+            return self._range_of_shares()
         else:
             print("❌ Please choose one of our options.")
             time.sleep(3)
             return self.get_share_selection()
     
-    def select_shares(self):
+    def _select_shares(self):
         """
         Allows user to select specific shares from the available list
 
@@ -94,7 +94,7 @@ class share_cli:
         command.clear_screen()
         
         while True:
-            self.print_shares()
+            self._print_shares()
             print(f"\nCurrently selected: {len(self.keep_shares)} shares")
             if self.keep_shares:
                 print(f"Selected: {', '.join(self.keep_shares)}")
@@ -132,7 +132,7 @@ class share_cli:
         
         return self.keep_shares
     
-    def range_of_shares(self):
+    def _range_of_shares(self):
         """
         Allows user to select a range of shares by index numbers
 
@@ -141,7 +141,7 @@ class share_cli:
         """
         while True:
             command.clear_screen()
-            self.print_shares()
+            self._print_shares()
             
             print(f"Enter a range (e.g., 1-3 or 2-5). Valid range: 1-{len(self.share_list)}")
             range_input = input("").strip()
