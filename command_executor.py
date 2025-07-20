@@ -16,6 +16,7 @@ class command:
             text=True, 
             bufsize=1) 
 
+            command._ps_process.stdin.write("Set-PSReadlineOption -EditMode Emacs\n")
             command._ps_process.stdin.write("Import-Module ActiveDirectory\n")
             command._ps_process.stdin.write("Write-Output 'AD_MODULE_READY'\n")
             command._ps_process.stdin.flush()
@@ -43,7 +44,7 @@ class command:
             if line == 'COMMAND_END':
                 break
             # Filter out unwanted lines
-            if line and not line.startswith('PS ') and line != ps_cmd.strip():
+            if line and not line.startswith('PS ') and line != ps_cmd.strip() and line != "":
                 output_lines.append(line)
         
         output = '\n'.join(output_lines)
