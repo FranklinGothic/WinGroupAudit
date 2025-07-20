@@ -229,8 +229,11 @@ class share_cli:
 class data_present_cli:
     def __init__(self, audit_type):
         self.audit_type = audit_type
+
         self.all_data = command.read_json("full")
         self.filtered_data = command.read_json("filtered")
+        self.RED = '\033[91m'
+        self.RESET = '\033[0m'
 
     def present(self):
         """
@@ -243,17 +246,25 @@ class data_present_cli:
         """
         Prints the data in a formatted, readable way - For share audits
         """
+        target_groups = self._get_target_groups()
+        
         for share_name, groups in self.all_data.items():
             print(f"\n{special_distinction}: {share_name}")
             print("-" * (len(share_name) + 8))
                 
             for group_name, nested_groups in groups.items():
-                print(f"   👥 GROUP: {group_name}")
+                # Check if this top-level group leads to targets
+                is_path_to_target = self._contains_target_groups(group_name, nested_groups, target_groups)
+                
+                if is_path_to_target:
+                    print(f"   👥 GROUP: {self.RED}{group_name}{self.RESET}")
+                else:
+                    print(f"   👥 GROUP: {group_name}")
                 
                 if not nested_groups:
                     print("      └── No nested groups")
                 else:
-                    self._general_nested_print(nested_groups, indent="      ")
+                    self._general_nested_print(nested_groups, indent="      ", target_groups=target_groups)
 
     def _general_print(self):
         """
@@ -270,11 +281,55 @@ class data_present_cli:
 
         print("\n" + "="*60)
 
-    def _general_nested_print(self, nested_groups, indent):
+    def _general_nested_print(self, nested_groups, indent, target_groups=None):
         """
-        Gets all nested groups under a group for printing
+        Gets all nested groups under a group for printing with highlighting
         """
+        if target_groups is None:
+            # Get target groups from filtered data or somewhere else
+            target_groups = self._get_target_groups()
+        
         for group_name, sub_groups in nested_groups.items():
-            print(f"{indent}└── {group_name}")
+            # Check if this group or any nested groups contain target groups
+            is_path_to_target = self._contains_target_groups(group_name, sub_groups, target_groups)
+            
+            if is_path_to_target:
+                print(f"{indent}└── {self.RED}{group_name}{self.RESET}")
+            else:
+                print(f"{indent}└── {group_name}")
+                
             if sub_groups:
-                self._print_nested_groups(sub_groups, indent + "    ")
+                self._general_nested_print(sub_groups, indent + "    ", target_groups)
+
+    def _contains_target_groups(self, current_group, nested_dict, target_groups):
+        """
+        Check if current group or any nested groups contain target groups
+        """
+        # Check current group
+        if current_group in target_groups:
+            return True
+        
+        # Check nested groups recursively
+        if isinstance(nested_dict, dict):
+            for group_name, sub_nested in nested_dict.items():
+                if self._contains_target_groups(group_name, sub_nested, target_groups):
+                    return True
+        
+        return False
+
+    def _get_target_groups(self):
+        """
+        Extract target groups from filtered data or get from main class
+        """
+        # Option 1: Extract from filtered data
+        target_groups = set()
+        for share_name, groups in self.filtered_data.items():
+            if isinstance(groups, list):
+                # If your filtered data is in list format
+                for path in groups:
+                    target_groups.update(path)
+            elif isinstance(groups, dict):
+                # If your filtered data is in dict format
+                target_groups.update(groups.keys())
+        
+        return target_groups
