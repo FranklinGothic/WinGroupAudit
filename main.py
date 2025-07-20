@@ -1,4 +1,4 @@
-from cli import genrl_cli, share_cli
+from cli import genrl_cli, share_cli, data_present_cli
 from filter_groups import filter_groups
 from share_scanner import share_scanner
 from command_executor import command
@@ -23,7 +23,7 @@ class main:
 
     def run_audit(self):
         """
-        Runs the program and matches the chosen audit type to the correct audit flow
+        Runs the audit and is where all data flows through
         """
         match self.chosen_audit_type:
 
@@ -37,12 +37,13 @@ class main:
         
         command.dump_to_json(results, "full")
 
-        input("\nFilter data?")
+
         filter = filter_groups(self.chosen_groups)
         filtered_data = filter.filter_groups()
         command.dump_to_json(filtered_data, "filtered")
 
-
+        present_data = data_present_cli(self.chosen_audit_type)
+        present_data.present()
 
 
 if __name__ == "__main__":

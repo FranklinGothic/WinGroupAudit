@@ -7,6 +7,9 @@ class command:
 
     @staticmethod
     def init_ps():
+        """
+        This initalizes a powershell session for each thread so they don't interupt each other during command execution
+        """
         if not hasattr(command._thread_local, 'ps_process') or command._thread_local.ps_process.poll() is not None:
             command._thread_local.ps_process = subprocess.Popen(
                 ["powershell.exe", "-NoLogo", "-NoProfile"],      
@@ -39,7 +42,7 @@ class command:
             line = ps_process.stdout.readline().strip()
             if line == 'COMMAND_END':
                 break
-            # Filter out unwanted lines
+            # Filter out unwanted lines - this is just last layer of security to prevent unwanted lines from corrupting the data
             if (line and not line.startswith('PS ') and line != ps_cmd.strip() and line != ""
                 and line not in "Write-Output 'COMMAND_END'" and "|" not in line):
                 output_lines.append(line)
@@ -50,7 +53,7 @@ class command:
     @staticmethod
     def end_session():
         """
-        End the thread-local PowerShell session
+        End the thread-local powershell session
         """
         if hasattr(command._thread_local, 'ps_process') and command._thread_local.ps_process is not None:
             try:

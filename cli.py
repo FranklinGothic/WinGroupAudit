@@ -227,14 +227,54 @@ class share_cli:
                 continue
 
 class data_present_cli:
-    def __init__(self):
-        pass
+    def __init__(self, audit_type):
+        self.audit_type = audit_type
+        self.all_data = command.read_json("full")
+        self.filtered_data = command.read_json("filtered")
 
     def present(self):
         """
-        Prompts the user about how and what data they would like presented.
+        Determines how data will be presented to the user
         """
-        pass
+        command.clear_screen()
+        self._general_print()
 
-    def _present_all_data():
-        pass
+    def _print_case(self, special_distinction):
+        """
+        Prints the data in a formatted, readable way - For share audits
+        """
+        for share_name, groups in self.all_data.items():
+            print(f"\n{special_distinction}: {share_name}")
+            print("-" * (len(share_name) + 8))
+                
+            for group_name, nested_groups in groups.items():
+                print(f"   👥 GROUP: {group_name}")
+                
+                if not nested_groups:
+                    print("      └── No nested groups")
+                else:
+                    self._general_nested_print(nested_groups, indent="      ")
+
+    def _general_print(self):
+        """
+        Prints the data in a formatted, readable way
+        """
+        print("\n" + "="*60)
+        print("AUDIT RESULTS")
+        print("="*60)
+
+        match self.audit_type:
+
+            case "Shares":
+                self._print_case("📁 SHARE")
+
+        print("\n" + "="*60)
+
+    def _general_nested_print(self, nested_groups, indent):
+        """
+        Gets all nested groups under a group for printing
+        """
+        for group_name, sub_groups in nested_groups.items():
+            print(f"{indent}└── {group_name}")
+            if sub_groups:
+                self._print_nested_groups(sub_groups, indent + "    ")
