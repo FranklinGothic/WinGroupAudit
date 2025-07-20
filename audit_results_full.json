@@ -1,76 +1,70 @@
 {
+  "recusive": {
+    "One": {
+      "Three": {
+        "Two": {
+          "One": {}
+        }
+      }
+    }
+  },
   "SYSVOL": {
+    "Everyone": {},
     "Administrators": {
-      "Domain Admins": [
-        "Domain Admins",
-        {}
-      ],
-      "Enterprise Admins": [
-        "Enterprise Admins",
-        {}
-      ]
+      "Domain Admins": {},
+      "Enterprise Admins": {}
     },
-    "Authenticated Users": {},
-    "Everyone": {}
+    "Authenticated Users": {}
   },
   "temp share": {
+    "Everyone": {},
     "Administrators": {
-      "Domain Admins": [
-        "Domain Admins",
-        {}
-      ],
-      "Enterprise Admins": [
-        "Enterprise Admins",
-        {}
-      ]
+      "Domain Admins": {},
+      "Enterprise Admins": {}
+    }
+  },
+  "NETLOGON": {
+    "Everyone": {},
+    "Administrators": {
+      "Domain Admins": {},
+      "Enterprise Admins": {}
+    }
+  },
+  "Users": {
+    "Administrators": {
+      "Domain Admins": {},
+      "Enterprise Admins": {}
     },
     "Everyone": {}
   },
   "TOP PRIO": {
-    "Cool_Finance": {
-      "Vegs": [
-        "Vegs",
-        {
-          "fruits": [
-            "fruits",
-            {
-              "test": [
-                "test",
-                {}
-              ]
-            }
-          ]
-        }
-      ]
+    "please": {
+      "please_sub": {
+        "please_sub_sub": {}
+      },
+      "thanks": {
+        "thanks_sub": {},
+        "thanks_sub2": {}
+      },
+      "thanks_sub": {}
     },
     "Administrator": {},
-    "please": {
-      "please_sub": [
-        "please_sub",
-        {
-          "please_sub_sub": [
-            "please_sub_sub",
-            {}
-          ]
+    "Cool_Finance": {
+      "Vegs": {
+        "fruits": {
+          "test": {}
         }
-      ],
-      "thanks": [
-        "thanks",
-        {
-          "thanks_sub": [
-            "thanks_sub",
-            {}
-          ],
-          "thanks_sub2": [
-            "thanks_sub2",
-            {}
-          ]
-        }
-      ],
-      "thanks_sub": [
-        "thanks_sub",
-        {}
-      ]
+      }
+    }
+  },
+  "Windows Media Player": {
+    "Administrators": {
+      "Domain Admins": {},
+      "Enterprise Admins": {}
+    },
+    "Administrator": {},
+    "fruits": {
+      "test": {}
     }
   }
 }

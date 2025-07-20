@@ -39,7 +39,7 @@ class group_scanner:
             return child_groups
 
     @staticmethod
-    def get_nested_groups(parent_groups, max_workers=5): #create more threads for thoretical greater speed but may cause degregration if too many
+    def get_nested_groups(parent_groups, max_workers=3): #create more threads for thoretical greater speed but may cause degregration if too many
         """
         This will return a dictionary of all of the nested groups inside of a particular group and process in parallel
         """

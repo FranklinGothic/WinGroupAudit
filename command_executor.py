@@ -1,70 +1,66 @@
 import os, subprocess
 import yaml, json
+import threading
 
 class command:
-
-    _ps_process = None
-
+    _thread_local = threading.local()
 
     @staticmethod
     def init_ps():
-        if command._ps_process is None:
-            command._ps_process = subprocess.Popen(["powershell.exe", "-NoLogo", "-NoProfile"],      
-            stdin=subprocess.PIPE, 
-            stdout=subprocess.PIPE, 
-            stderr=subprocess.PIPE,
-            text=True, 
-            bufsize=1) 
-
-            command._ps_process.stdin.write("Set-PSReadlineOption -EditMode Emacs\n")
-            command._ps_process.stdin.write("Import-Module ActiveDirectory\n")
-            command._ps_process.stdin.write("Write-Output 'AD_MODULE_READY'\n")
-            command._ps_process.stdin.flush()
-
-            while True:
-                line = command._ps_process.stdout.readline().strip()
-                if line == 'AD_MODULE_READY':
-                    print("✅ AD Module loaded - session ready")
-                    break
+        if not hasattr(command._thread_local, 'ps_process') or command._thread_local.ps_process.poll() is not None:
+            command._thread_local.ps_process = subprocess.Popen(
+                ["powershell.exe", "-NoLogo", "-NoProfile"],      
+                stdin=subprocess.PIPE, 
+                stdout=subprocess.PIPE, 
+                stderr=subprocess.PIPE,
+                text=True, 
+                bufsize=1
+            )
+            
+            # Initialize AD module for this thread
+            command._thread_local.ps_process.stdin.write("Import-Module ActiveDirectory\n")
+            command._thread_local.ps_process.stdin.flush()
 
     @staticmethod
     def powershell_execute(ps_cmd):
         """
-        Executes powershell commands in persistent session
+        Executes powershell commands in thread-local session
         """
         command.init_ps()
         
-        command._ps_process.stdin.write(f"{ps_cmd}\n")
-        command._ps_process.stdin.write("Write-Output 'COMMAND_END'\n")
-        command._ps_process.stdin.flush()
+        ps_process = command._thread_local.ps_process
+        
+        ps_process.stdin.write(f"{ps_cmd}\n")
+        ps_process.stdin.write("Write-Output 'COMMAND_END'\n")
+        ps_process.stdin.flush()
         
         output_lines = []
         while True:
-            line = command._ps_process.stdout.readline().strip()
+            line = ps_process.stdout.readline().strip()
             if line == 'COMMAND_END':
                 break
             # Filter out unwanted lines
             if (line and not line.startswith('PS ') and line != ps_cmd.strip() and line != ""
-                and line not in "Write-Output 'COMMAND_END'"):
+                and line not in "Write-Output 'COMMAND_END'" and "|" not in line):
                 output_lines.append(line)
         
         output = '\n'.join(output_lines)
         return command.validate_execution(output, 0, None)
-    
+
     @staticmethod
     def end_session():
         """
-        This is to end the powershell session
+        End the thread-local PowerShell session
         """
-        if command._ps_process is not None:
+        if hasattr(command._thread_local, 'ps_process') and command._thread_local.ps_process is not None:
             try:
-                command._ps_process.stdin.write("exit\n")
-                command._ps_process.stdin.flush()
-                command._ps_process.wait(timeout=5)
-                
+                command._thread_local.ps_process.stdin.write("exit\n")
+                command._thread_local.ps_process.wait(timeout=5)
             except:
-                command._ps_process.kill()
-        
+                command._thread_local.ps_process.kill()
+            finally:
+                command._thread_local.ps_process = None
+    
     @staticmethod
     def terminal_execute(tm_cmd):
         """
@@ -84,7 +80,6 @@ class command:
         if code != 0:
             return None
 
-        print(output.strip())
         return output.strip()
     
     @staticmethod

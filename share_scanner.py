@@ -25,7 +25,7 @@ class share_scanner:
         share_data = group_scanner.get_nested_groups(share_groups)
         return share_to_audit, share_data
     
-    def get_share_groups(self, max_workers=5): #create more threads for thoretical greater speed but may cause degregration if too many
+    def get_share_groups(self, max_workers=3): #create more threads for thoretical greater speed but may cause degregration if too many
         """
         This will split the share processing into multiple threads so execution can complete exponetially faster
         """
