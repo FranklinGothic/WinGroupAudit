@@ -55,10 +55,19 @@ class command:
         return commands
     
     @staticmethod
-    def dump_to_json(audit_data):
+    def dump_to_json(data, type):
         """
         Opens the json file and dumps all data into the file
         """
-        with open("audit_results.json", "w") as file:
-            json.dump(audit_data, file, indent=2)
-        print("Dumped to json!")
+        with open(f"audit_results_{type}.json", "w") as file:
+            json.dump(data, file, indent=2)
+        print(f"Dumped to {type} json!")
+
+    @staticmethod
+    def read_json(type):
+        """
+        This opens the json file and returns the data only upon user request
+        """
+        with open(f"audit_results_{type}.json", "r") as file:
+            data = json.load(file)
+        return data

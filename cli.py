@@ -22,26 +22,60 @@ class genrl_cli:
             choice = input("")
 
         return choice.capitalize()
-
-    def get_group(self):
+    
+    def get_groups(self):
         """
-        Has the user give the name of the group they are auditing
+        Has the user give the name of the group(s) they are auditing
         """
-        command.clear_screen()
-        print("What is the name of the 👥 group you are auditing?")
-        choice = input("")
+        selected_groups = []
+        
+        while True:
+            command.clear_screen()
+            print("What is the name of the 👥 group(s) you are auditing?")
+            
+            if selected_groups:
+                print(f"\nCurrently selected: {len(selected_groups)} groups")
+                print(f"Selected: {', '.join(selected_groups)}")
+            
+            print("\nEnter group name (or 'done' to finish, 'clear' to reset):")
+            choice = input("").strip()
+            
+            # SPECIAL COMMANDS
+            if choice.lower() == 'done':
+                if selected_groups:
+                    break
+                else:
+                    print("❌ Please select at least one group.")
+                    time.sleep(2)
+                    continue
+            elif choice.lower() == 'clear':
+                selected_groups.clear()
+                print("✅ Selection cleared!")
+                time.sleep(1)
+                continue
+            elif not choice:
+                print("❌ Please enter a group name.")
+                time.sleep(1)
+                continue
 
-        commands = command.get_commands_yaml()
-        check_cmd = commands["group_cmds"]["check_group_exists"]
-
-        formatted_check_cmd = check_cmd.format(option=choice)
-        result = command.powershell_execute(formatted_check_cmd)
-        if result and result == "group":
-            return choice
-        else:
-            print("❌ This group does not exist. Please enter a valid group.")
-            time.sleep(3)
-            return self.get_group()
+            # Validate group exists
+            commands = command.get_commands_yaml()
+            check_cmd = commands["group_cmds"]["check_group_exists"]
+            formatted_check_cmd = check_cmd.format(option=choice)
+            result = command.powershell_execute(formatted_check_cmd)
+            
+            if result and result.strip() == "group":
+                if choice not in selected_groups:
+                    selected_groups.append(choice)
+                    print(f"✅ Added '{choice}' to selection!")
+                else:
+                    print(f"⚠️ '{choice}' is already selected.")
+            else:
+                print(f"❌ '{choice}' does not exist. Please enter a valid group.")
+            
+            time.sleep(1)
+        
+        return selected_groups
 
 class share_cli:
 
@@ -191,3 +225,16 @@ class share_cli:
                 print("❌ Please enter valid numbers (e.g., 1-3)")
                 time.sleep(2)
                 continue
+
+class data_present_cli:
+    def __init__(self):
+        pass
+
+    def present(self):
+        """
+        Prompts the user about how and what data they would like presented.
+        """
+        pass
+
+    def _present_all_data():
+        pass
