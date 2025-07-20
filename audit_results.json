@@ -1,0 +1,76 @@
+{
+  "SYSVOL": {
+    "Administrators": {
+      "Domain Admins": [
+        "Domain Admins",
+        {}
+      ],
+      "Enterprise Admins": [
+        "Enterprise Admins",
+        {}
+      ]
+    },
+    "Authenticated Users": {},
+    "Everyone": {}
+  },
+  "temp share": {
+    "Administrators": {
+      "Domain Admins": [
+        "Domain Admins",
+        {}
+      ],
+      "Enterprise Admins": [
+        "Enterprise Admins",
+        {}
+      ]
+    },
+    "Everyone": {}
+  },
+  "TOP PRIO": {
+    "Cool_Finance": {
+      "Vegs": [
+        "Vegs",
+        {
+          "fruits": [
+            "fruits",
+            {
+              "test": [
+                "test",
+                {}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Administrator": {},
+    "please": {
+      "please_sub": [
+        "please_sub",
+        {
+          "please_sub_sub": [
+            "please_sub_sub",
+            {}
+          ]
+        }
+      ],
+      "thanks": [
+        "thanks",
+        {
+          "thanks_sub": [
+            "thanks_sub",
+            {}
+          ],
+          "thanks_sub2": [
+            "thanks_sub2",
+            {}
+          ]
+        }
+      ],
+      "thanks_sub": [
+        "thanks_sub",
+        {}
+      ]
+    }
+  }
+}

@@ -61,3 +61,4 @@ class command:
         """
         with open("audit_results.json", "w") as file:
             json.dump(audit_data, file, indent=2)
+        print("Dumped to json!")
