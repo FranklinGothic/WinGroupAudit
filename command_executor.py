@@ -3,20 +3,65 @@ import yaml, json
 
 class command:
 
+    _ps_process = None
+
+
+    @staticmethod
+    def init_ps():
+        if command._ps_process is None:
+            command._ps_process = subprocess.Popen(["powershell.exe", "-NoLogo", "-NoProfile"],      
+            stdin=subprocess.PIPE, 
+            stdout=subprocess.PIPE, 
+            stderr=subprocess.PIPE,
+            text=True, 
+            bufsize=1) 
+
+            command._ps_process.stdin.write("Import-Module ActiveDirectory\n")
+            command._ps_process.stdin.write("Write-Output 'AD_MODULE_READY'\n")
+            command._ps_process.stdin.flush()
+
+            while True:
+                line = command._ps_process.stdout.readline().strip()
+                if line == 'AD_MODULE_READY':
+                    print("✅ AD Module loaded - session ready")
+                    break
+
     @staticmethod
     def powershell_execute(ps_cmd):
         """
-        Executes powershell commands
+        Executes powershell commands in persistent session
         """
-        result = subprocess.run(
-            f"powershell.exe -Command \"& {{ {ps_cmd} }}\"",
-            capture_output=True,
-            text=True,
-            timeout=30
-        )
+        command._init_session()
         
-        return command.validate_execution(result.stdout, result.returncode, result.stderr)
+        command._ps_process.stdin.write(f"{ps_cmd}\n")
+        command._ps_process.stdin.write("Write-Output 'COMMAND_END'\n")
+        command._ps_process.stdin.flush()
+        
+        output_lines = []
+        while True:
+            line = command._ps_process.stdout.readline().strip()
+            if line == 'COMMAND_END':
+                break
+            if line:
+                output_lines.append(line)
+        
+        output = '\n'.join(output_lines)
+        return command.validate_execution(output, 0, None)
     
+    @staticmethod
+    def end_session():
+        """
+        This is to end the powershell session
+        """
+        if command._ps_process is not None:
+            try:
+                command._ps_process.stdin.write("exit\n")
+                command._ps_process.stdin.flush()
+                command._ps_process.wait(timeout=5)
+                
+            except:
+                command._ps_process.kill()
+        
     @staticmethod
     def terminal_execute(tm_cmd):
         """

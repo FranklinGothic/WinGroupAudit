@@ -2,9 +2,12 @@ from cli import genrl_cli, share_cli
 from filter_groups import filter_groups
 from share_scanner import share_scanner
 from command_executor import command
+import atexit
 
 class main:
     def __init__(self):
+        atexit.register(command.end_session)
+
         self.chosen_audit_type = None
         self.chosen_groups = None
         self.run_cli()
