@@ -38,6 +38,7 @@ class filter_groups:
         if isinstance(nested_dict, dict) and nested_dict:
             for group_name, sub_nested in nested_dict.items():
                 new_path = current_path + [group_name]
+                #as you go deeper the name of the dictionary your on is added onto the list you already have
                 
                 deeper_paths = self._get_all_paths(sub_nested, new_path)
                 if deeper_paths:
