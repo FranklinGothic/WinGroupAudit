@@ -6,7 +6,7 @@ class group_scanner:
 
 
     @staticmethod
-    def _process_single_group(parent_group, visited=None):
+    def _process_single_group(parent_group, top_level_group, visited=None):
         """
         This will process a single group and return all nested groups
         """
@@ -32,9 +32,11 @@ class group_scanner:
             for child in children_list:
                 child = child.strip()
                 if child:
-                    child_groups[child] = group_scanner._process_single_group(child, visited.copy())
-
-        return parent_group, child_groups
+                    child_groups[child] = group_scanner._process_single_group(child, False, visited.copy())
+        if top_level_group:
+            return parent_group, child_groups
+        else:
+            return child_groups
 
     @staticmethod
     def get_nested_groups(parent_groups, max_workers=5): #create more threads for thoretical greater speed but may cause degregration if too many
@@ -45,7 +47,7 @@ class group_scanner:
         lock = threading.Lock()
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
             futures_to_execute = [
-                executor.submit(group_scanner._process_single_group, parent) for parent in parent_groups
+                executor.submit(group_scanner._process_single_group, parent, True) for parent in parent_groups
             ]
         
         for future in as_completed(futures_to_execute):
