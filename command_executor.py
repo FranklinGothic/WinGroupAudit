@@ -31,7 +31,7 @@ class command:
         """
         Executes powershell commands in persistent session
         """
-        command._init_session()
+        command.init_ps()
         
         command._ps_process.stdin.write(f"{ps_cmd}\n")
         command._ps_process.stdin.write("Write-Output 'COMMAND_END'\n")
@@ -45,6 +45,10 @@ class command:
             if line:
                 output_lines.append(line)
         
+        output_lines.pop(0)
+        output_lines.pop(len(output_lines)-2)
+        output_lines.pop(len(output_lines)-1)
+
         output = '\n'.join(output_lines)
         return command.validate_execution(output, 0, None)
     
@@ -79,10 +83,9 @@ class command:
         Confirms that no errors occured during execution of any commands
         """
         if code != 0:
-            print(f"command failed with return code {code}: {error}")
             return None
 
-        print(f"Command succeeded with return code {code}")
+        print(output.strip())
         return output.strip()
     
     @staticmethod
