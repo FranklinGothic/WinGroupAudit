@@ -42,13 +42,10 @@ class command:
             line = command._ps_process.stdout.readline().strip()
             if line == 'COMMAND_END':
                 break
-            if line:
+            # Filter out unwanted lines
+            if line and not line.startswith('PS ') and line != ps_cmd.strip():
                 output_lines.append(line)
         
-        output_lines.pop(0)
-        output_lines.pop(len(output_lines)-2)
-        output_lines.pop(len(output_lines)-1)
-
         output = '\n'.join(output_lines)
         return command.validate_execution(output, 0, None)
     
