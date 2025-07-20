@@ -44,7 +44,8 @@ class command:
             if line == 'COMMAND_END':
                 break
             # Filter out unwanted lines
-            if line and not line.startswith('PS ') and line != ps_cmd.strip() and line != "":
+            if (line and not line.startswith('PS ') and line != ps_cmd.strip() and line != ""
+                and line not in "Write-Output 'COMMAND_END'"):
                 output_lines.append(line)
         
         output = '\n'.join(output_lines)
