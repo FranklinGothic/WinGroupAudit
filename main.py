@@ -18,12 +18,13 @@ class main:
         Initializes the cli and runs the required methods to dictate the rest of program
         """
         cli_UI = genrl_cli()
-        self.chosen_audit_type = cli_UI.get_audit_type()
+        #self.chosen_audit_type = cli_UI.get_audit_type() #- Unused for now as shares are the only option
+        self.chosen_audit_type = "Shares" #set to shares as its the only option for now
         self.chosen_groups = cli_UI.get_groups()
 
     def run_audit(self):
         """
-        Runs the audit and is where all data flows through
+        Runs the audit and is where all data flows through - only has shares case for now but will add more as more audit types are added
         """
         match self.chosen_audit_type:
 

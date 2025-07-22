@@ -8,7 +8,7 @@ class genrl_cli:
 
     def get_audit_type(self):
         """
-        Has the user define what type of audit they are conducting
+        Has the user define what type of audit they are conducting - unused for now as shares are the only option
         """
         command.clear_screen()
         print("What would you like to audit?")
