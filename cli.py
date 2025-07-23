@@ -171,8 +171,9 @@ class share_cli:
                 
             time.sleep(1)
             command.clear_screen()
-            
-            return self.keep_shares
+        
+        command.clear_screen()
+        return self.keep_shares
     
     def _range_of_shares(self):
         """
@@ -291,7 +292,7 @@ class data_present_cli:
 
         input("\nEnter to exit.")
         print("\nExiting...")
-        time.sleep(3)
+        time.sleep(0.5)
         sys.exit()
 
     def _general_nested_print(self, nested_groups, indent, target_groups=None):

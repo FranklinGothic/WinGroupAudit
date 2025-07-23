@@ -1,22 +1,10 @@
 {
-  "TOP PRIO": {
-    "please": {
-      "please_sub": {
-        "please_sub_sub": {}
-      },
-      "thanks": {
-        "thanks_sub": {},
-        "thanks_sub2": {}
-      },
-      "thanks_sub": {}
-    },
-    "Administrator": {},
-    "Cool_Finance": {
-      "Vegs": {
-        "fruits": {
-          "test": {}
-        }
-      }
+  "ADMIN$": {
+    "Backup Operators": {},
+    "INTERACTIVE": {},
+    "Administrators": {
+      "Domain Admins": {},
+      "Enterprise Admins": {}
     }
   }
 }
