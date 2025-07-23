@@ -1,5 +1,5 @@
 from command_executor import command
-import time
+import time, sys
 
 class genrl_cli:
 
@@ -31,7 +31,7 @@ class genrl_cli:
         
         while True:
             command.clear_screen()
-            print("What is the name of the 👥 group(s) you are auditing?")
+            print("What is the name of the [GROUP(S)] you are auditing?")
             
             if selected_groups:
                 print(f"\nCurrently selected: {len(selected_groups)} groups")
@@ -88,7 +88,7 @@ class share_cli:
         Prints out the shares in order so the user can add them to their audit
         """
         for i, print_share in enumerate(self.share_list, 1):
-            print(f"{i}. 📁 {print_share}")
+            print(f"{i}. [SHARE] {print_share}")
 
     def get_share_selection(self):
         """
@@ -257,9 +257,9 @@ class data_present_cli:
                 is_path_to_target = self._contains_target_groups(group_name, nested_groups, target_groups)
                 
                 if is_path_to_target:
-                    print(f"   👥 GROUP: {self.RED}{group_name}{self.RESET}")
+                    print(f"   [GROUP]: {self.RED}{group_name}{self.RESET}")
                 else:
-                    print(f"   👥 GROUP: {group_name}")
+                    print(f"   [GROUP]: {group_name}")
                 
                 if not nested_groups:
                     print("      └── No nested groups")
@@ -277,9 +277,14 @@ class data_present_cli:
         match self.audit_type:
 
             case "Shares":
-                self._print_case("📁 SHARE")
+                self._print_case("[SHARE]")
 
         print("\n" + "="*60)
+
+        input("\nEnter to exit.")
+        print("\nExiting...")
+        time.sleep(3)
+        sys.exit()
 
     def _general_nested_print(self, nested_groups, indent, target_groups=None):
         """

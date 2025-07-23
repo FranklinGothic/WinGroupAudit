@@ -1,6 +1,6 @@
 import os, subprocess
 import yaml, json
-import threading
+import threading, sys
 
 class command:
     _thread_local = threading.local()
@@ -97,7 +97,15 @@ class command:
         """
         Opens the yaml command file and returns all of the commands
         """
-        with open("system_cmds.yaml", "r") as file:
+        if getattr(sys, 'frozen', False):
+            # Running as EXE
+            bundle_dir = sys._MEIPASS
+            yaml_path = os.path.join(bundle_dir, "system_cmds.yaml")
+        else:
+            # Running as Python script
+            yaml_path = "system_cmds.yaml"
+        
+        with open(yaml_path, "r") as file:
             commands = yaml.safe_load(file)
 
         return commands

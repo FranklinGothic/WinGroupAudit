@@ -25,6 +25,11 @@ class filter_groups:
                         matching_paths.append(path)
                 
                 if matching_paths:
+                    redone_paths = []
+                    for match_path in matching_paths:
+                        ind = len(match_path) - 1 - match_path[::-1].index(group for group in self.wanted_groups)
+                        del match_path[ind+1:]
+                        redone_paths.append(match_path)
                     self.filtered_audit[parent] = matching_paths
         
         return self.filtered_audit
