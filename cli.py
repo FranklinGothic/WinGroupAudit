@@ -1,5 +1,5 @@
 from command_executor import command
-import time, sys
+import time, sys, string
 
 class genrl_cli:
 
@@ -100,7 +100,16 @@ class share_cli:
         get_shares = commands["share_cmds"]["get_all_shares"]
 
         result = command.powershell_execute(get_shares)
-        self.share_list = result.splitlines()
+        raw_share_list = result.splitlines()
+
+        ignore_shares = ["ADMIN$", "IPC$", "PRINT$", "PAX$"]
+        for letter in string.ascii_uppercase:
+            ignore_shares.append(f"{letter}$")
+
+        for share in raw_share_list:
+            if share not in ignore_shares:
+                self.share_list.append(share)
+
 
         self._print_shares()
         print("Which shares would you like to audit?")
