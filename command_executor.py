@@ -115,7 +115,15 @@ class command:
         """
         Opens the json file and dumps all data into the file
         """
-        with open(f"audit_results_{type}.json", "w") as file:
+        if getattr(sys, 'frozen', False):
+            app_data = os.path.join(os.environ['APPDATA'], 'WinGroupAudit')
+            os.makedirs(app_data, exist_ok=True)
+            json_path = os.path.join(app_data, f"audit_results_{type}.json")
+        else:
+            # Running as Python script
+            json_path = f"audit_results_{type}.json"
+
+        with open(json_path, "w") as file:
             json.dump(data, file, indent=2)
         print(f"Dumped to {type} json!")
 
@@ -124,6 +132,13 @@ class command:
         """
         This opens the json file and returns the data only upon user request
         """
-        with open(f"audit_results_{type}.json", "r") as file:
+        if getattr(sys, 'frozen', False):
+            app_data = os.path.join(os.environ['APPDATA'], 'WinGroupAudit')
+            json_path = os.path.join(app_data, f"audit_results_{type}.json")
+        else:
+            # Running as Python script
+            json_path = f"audit_results_{type}.json"
+
+        with open(json_path, "r") as file:
             data = json.load(file)
         return data
