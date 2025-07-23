@@ -102,7 +102,10 @@ class share_cli:
         result = command.powershell_execute(get_shares)
         raw_share_list = result.splitlines()
 
-        ignore_shares = ["ADMIN$", "IPC$", "PRINT$", "PAX$"]
+        ignore_shares = ["ADMIN$", "IPC$", "PRINT$", "FAX$", "NETLOGON", "SYSVOL", "CertEnroll", 
+                        "prnproc$", "print$", "RemoteInstall", "WsusContent", "WSUSTemp", "REMINST", 
+                        "FaxClient"]
+
         for letter in string.ascii_uppercase:
             ignore_shares.append(f"{letter}$")
 
