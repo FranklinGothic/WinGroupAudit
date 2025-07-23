@@ -22,17 +22,27 @@ class filter_groups:
                 matching_paths = []
                 for path in all_paths:
                     if any(group in path for group in self.wanted_groups):
-                        matching_paths.append(path)
+                        reformed_path = self._reform_last_wanted_group(path)
+                        matching_paths.append(reformed_path)
                 
                 if matching_paths:
-                    redone_paths = []
-                    for match_path in matching_paths:
-                        ind = len(match_path) - 1 - match_path[::-1].index(group for group in self.wanted_groups)
-                        del match_path[ind+1:]
-                        redone_paths.append(match_path)
                     self.filtered_audit[parent] = matching_paths
         
         return self.filtered_audit
+
+    def _reform_last_wanted_group(self, path):
+        """
+        Remove everything after the last instance of one of the wanted groups
+        """
+        last_index = -1
+        for i, group in enumerate(path):
+            if group in self.wanted_groups:
+                last_index = i
+        
+        if last_index >= 0:
+            return path[:last_index + 1]
+        else:
+            return path 
 
     def _get_all_paths(self, nested_dict, current_path):
         """
