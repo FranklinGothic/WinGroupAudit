@@ -150,23 +150,27 @@ class share_cli:
                 time.sleep(1)
                 command.clear_screen()
                 continue
-            try:
-                if getattr(int(share_choice), int):
-                    share_choice = self.share_list[int(share_choice)]
-            finally:
-            # Check if share exists and isn't already selected
-                if share_choice in self.share_list:
-                    if share_choice not in self.keep_shares:
-                        self.keep_shares.append(share_choice)
-                        print(f"✅ Added '{share_choice}' to selection!")
 
-                    else:
-                        print(f"⚠️ '{share_choice}' is already selected.")
+            try:
+                index = int(share_choice) - 1  # Convert to 0-based index
+                if 0 <= index < len(self.share_list):
+                    share_choice = self.share_list[index]
+            
+            except ValueError:
+                pass
+        # Check if share exists and isn't already selected
+            if share_choice in self.share_list:
+                if share_choice not in self.keep_shares:
+                    self.keep_shares.append(share_choice)
+                    print(f"✅ Added '{share_choice}' to selection!")
+
                 else:
-                    print(f"❌ '{share_choice}' is not a valid share.")
-                    
-                time.sleep(1)
-                command.clear_screen()
+                    print(f"⚠️ '{share_choice}' is already selected.")
+            else:
+                print(f"❌ '{share_choice}' is not a valid share.")
+                
+            time.sleep(1)
+            command.clear_screen()
             
             return self.keep_shares
     

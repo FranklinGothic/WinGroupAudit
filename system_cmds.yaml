@@ -1,7 +1,7 @@
 share_cmds:
     # Get all non-administrative shares (excludes shares ending with $)
     get_all_shares: |
-        Get-SmbShare | Where-Object {$_.Name -notmatch '\$$'} | Select-Object -ExpandProperty Name
+        Get-SmbShare | Select-Object -ExpandProperty Name
     
     # Get all groups/users with access to a specific share
     associated_groups: |
