@@ -81,7 +81,7 @@ class share_cli:
 
     def __init__(self):
         self.keep_shares = []
-        self.share_list = None
+        self.share_list = []
     
     def _print_shares(self):
         """
