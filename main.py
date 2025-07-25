@@ -1,4 +1,6 @@
 from cli import genrl_cli, share_cli, data_present_cli
+from gui import App
+
 from filter_groups import filter_groups
 from share_scanner import share_scanner
 from command_executor import command
@@ -10,12 +12,38 @@ class main:
 
         self.chosen_audit_type = None
         self.chosen_groups = None
-        self.run_cli()
+        self.pick_ui()
         self.run_audit()
+
+    def pick_ui(self):
+        """
+        This is a temporary method to switch between gui and cli on my discression. DELETE LATER AFTER CLI IS REMOVED
+        """
+        command.clear_screen()
+        print("GUI or CLI?")
+
+        choice = input("")
+
+        if choice.upper() == "GUI":
+            self.run_gui()
+
+        elif choice.upper() == "CLI":
+            self.run_cli()
+
+        else:
+            self.pick_ui()
+
+    def run_gui(self):
+        """
+        Initializes the gui and runs the required methods to dictate the rest of program
+        """
+        gui = App()
+        #self.chosen_audit_type = gui.get_audit_type() #- Unused for now as shares are the only option
+        self.chosen_audit_type = "Shares" #set to shares as its the only option for now
 
     def run_cli(self):
         """
-        Initializes the cli and runs the required methods to dictate the rest of program
+        Initializes the cli and runs the required methods to dictate the rest of program - temp
         """
         cli_UI = genrl_cli()
         #self.chosen_audit_type = cli_UI.get_audit_type() #- Unused for now as shares are the only option
@@ -48,6 +76,7 @@ class main:
 
 
 if __name__ == "__main__":
+    
     try:
         main()
     except Exception as e:
