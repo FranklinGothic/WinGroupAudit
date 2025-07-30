@@ -18,4 +18,4 @@ group_cmds:
     
     # Verify that a group exists in Active Directory
     check_group_exists: |
-        Get-ADGroup -Identity {option} | Select-Object -ExpandProperty ObjectClass
+        Get-ADGroup -Identity '{option}' | Select-Object -ExpandProperty ObjectClass
