@@ -13,7 +13,7 @@ class main:
         self.chosen_audit_type = None
         self.chosen_groups = None
         self.pick_ui()
-        self.run_audit()
+        #self.run_audit()
 
     def pick_ui(self):
         """
@@ -38,8 +38,11 @@ class main:
         Initializes the gui and runs the required methods to dictate the rest of program
         """
         gui = App()
-        #self.chosen_audit_type = gui.get_audit_type() #- Unused for now as shares are the only option
-        self.chosen_audit_type = "Shares" #set to shares as its the only option for now
+        gui.get_audit_type() #- Unused for now as shares are the only option
+        self.chosen_audit_type = gui.audit_type
+        gui.get_groups()
+        self.chosen_groups = gui.confimed_groups
+        #self.chosen_audit_type = "Shares" #set to shares as its the only option for now
 
     def run_cli(self):
         """

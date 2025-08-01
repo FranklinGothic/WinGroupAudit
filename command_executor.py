@@ -93,6 +93,14 @@ class command:
         os.system("cls")
 
     @staticmethod
+    def clear_screen_gui(frame):
+        """
+        Clears gui screen
+        """
+        for widget in frame.winfo_children():
+            widget.destroy()
+
+    @staticmethod
     def get_commands_yaml():
         """
         Opens the yaml command file and returns all of the commands
