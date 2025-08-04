@@ -63,7 +63,7 @@ class App:
         group_entry = tk.Entry(self.main_frame, textvariable=selected_group)
         group_entry.grid(column=1, row=0, padx=10, pady=10, sticky="EWS")
 
-        add_button = tk.Button(self.main_frame, text="Add", command=lambda: self.add_group(selected_group.get()))
+        add_button = tk.Button(self.main_frame, text="Add", command=lambda: self.add_group(selected_group.get().strip()))
         add_button.grid(column=0, row=1, padx=10, pady=5, sticky="EW")
 
         self.root.mainloop()
