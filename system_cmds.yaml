@@ -23,3 +23,9 @@ group_cmds:
     check_group_exists: |
         $groupName = "{option}"
         Get-ADGroup -Identity $groupName | Select-Object -ExpandProperty ObjectClass
+
+    # Verify that a group's name in AD is the same as the one given - exists bc ps doesn't care about capitalization but when equating names it does
+
+    check_group_name: |
+        $groupName = "{option}"
+        Get-ADGroup -Identity $groupName | Select-Object -ExpandProperty Name

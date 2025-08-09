@@ -66,8 +66,10 @@ class genrl_cli:
             
             if result and result.strip() == "group":
                 if choice not in selected_groups:
-                    selected_groups.append(choice)
-                    print(f"✅ Added '{choice}' to selection!")
+
+                    checked_group_name = self.check_group_name(choice)
+                    selected_groups.append(checked_group_name)
+                    print(f"✅ Added '{checked_group_name}' to selection!")
                 else:
                     print(f"⚠️ '{choice}' is already selected.")
             else:
@@ -76,6 +78,14 @@ class genrl_cli:
             time.sleep(1)
         
         return selected_groups
+    
+    def check_group_name(self, group):
+        commands = command.get_commands_yaml()
+        name_check_command = commands["group_cmds"]["check_group_name"]
+        formatted_name_cmd = name_check_command.format(option=group)
+        result = command.powershell_execute(formatted_name_cmd)
+
+        return result.strip()
 
 class share_cli:
 
