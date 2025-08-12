@@ -17,7 +17,7 @@ group_cmds:
     # Get all nested groups within a parent group (not users)
     get_group_children: |
         $groupName = "{option}"
-        Get-ADGroupMember -Identity $groupName | Where-Object {{$_.objectClass -eq `"group`"}} | Select-Object -ExpandProperty Name
+        Get-ADGroupMember -Identity $groupName | Select-Object -ExpandProperty Name
     
     # Verify that a group exists in Active Directory
     check_group_exists: |
