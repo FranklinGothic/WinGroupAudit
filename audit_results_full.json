@@ -1,10 +1,39 @@
 {
-  "ADMIN$": {
-    "Backup Operators": {},
-    "INTERACTIVE": {},
-    "Administrators": {
-      "Domain Admins": {},
-      "Enterprise Admins": {}
+  "Finance_Report": {
+    "Finance": {
+      "MoneyTeam": {
+        "DeepMoney": {},
+        "Marketing": {}
+      }
     }
+  },
+  "HiddenShare$": {
+    "Finance": {
+      "MoneyTeam": {
+        "DeepMoney": {},
+        "Marketing": {}
+      }
+    },
+    "Tech": {
+      "IT": {},
+      "Workers": {}
+    }
+  },
+  "Joe": {
+    "Joe": {
+      "Pedro": {}
+    }
+  },
+  "Users": {
+    "Administrators": {
+      "Domain Admins": {
+        "Administrator": {}
+      },
+      "Enterprise Admins": {
+        "Administrator": {}
+      },
+      "Administrator": {}
+    },
+    "Everyone": {}
   }
 }

@@ -9,7 +9,7 @@ class share_scanner:
         self.shares_dictionary = {}
         self.lock = threading.Lock()
 
-    def get_share_groups(self, max_workers=3): #create more threads for thoretical greater speed but may cause degregration if too many
+    def get_share_groups(self, max_workers=1): #create more threads for thoretical greater speed but may cause degregration if too many
         """
         This will split the share processing into multiple threads so execution can complete exponetially faster
         """
@@ -56,9 +56,10 @@ class share_scanner:
 
         group_data = {}
         nested_groups = group_scanner.process_single_group(group)
+        print(nested_groups)
 
         if nested_groups:
-            for nested_group in nested_group:
+            for nested_group in nested_groups:
                 group_data[nested_group] = self._process_share_group(nested_group, visited.copy())
         
         return group_data
