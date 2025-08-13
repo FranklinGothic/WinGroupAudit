@@ -1,6 +1,8 @@
 import os, subprocess
 import yaml, json
 import threading, sys
+import csv, datetime
+import pandas as pd
 
 class command:
     _thread_local = threading.local()
@@ -142,3 +144,13 @@ class command:
         with open(json_path, "r") as file:
             data = json.load(file)
         return data
+    
+    @staticmethod
+    def convert_to_csv():
+        """
+        Converts audit data to csv
+        """
+        csv_summary = []
+
+        data = command.read_json("full")
+        
