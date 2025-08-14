@@ -34,54 +34,64 @@ class share_scanner:
 
     def _process_single_share(self, share_to_audit):
         """
-        This will process a single share and will be used in parallel
+        Fixed version with flat structure
         """
         print(f"working on share: {share_to_audit}")
         commands = command.get_commands_yaml()
         share_groups_cmd = commands["share_cmds"]["associated_groups"]
         share_groups_output = command.powershell_execute(share_groups_cmd.format(option=share_to_audit))
-
-        share_groups = [group.strip() for group in share_groups_output.splitlines()]
+        
+        if not share_groups_output:
+            return share_to_audit, []
+        
+        share_groups = [group.strip() for group in share_groups_output.splitlines() if group.strip()]
         share_data = []
 
         for share_group in share_groups:
-
-            group_chain = self._get_group_chain(share_group)
-
+            # Get complete group chain in one pass - NO RECURSION
+            group_chain = self._get_group_chain_flat(share_group)
+            
             permission_entry = {
-                "account_name" : share_group,
-                "account_type" : "",
-                "access_rights" : "",
+                "account_name": share_group,
+                "account_type": "Group",
+                "access_rights": "Unknown",
                 "group_chain": group_chain,
                 "chain_length": len(group_chain)
             }
             share_data.append(permission_entry)
+        
         return share_to_audit, share_data
-    
-    def _get_group_chain(self, group, visited=None):
+
+    def _get_group_chain_flat(self, start_group, max_depth=15):
         """
-        Get flattened chain of group memberships
+        Breadth-first traversal - NO RECURSION, PROPER loop detection
         """
-        if visited is None:
-            visited = set()
-
-        if group in visited:
-            return [group]  # Circular reference - just return the group
-
-        visited.add(group)
-        chain = [group]
-
-        nested_groups = group_scanner.process_single_group(group)
-
-        if nested_groups:
-            # Just get the first level - don't go infinitely deep
-            for nested_group in nested_groups:
-                if nested_group not in visited:
-                    sub_chain = self._get_group_chain(nested_group, visited.copy())
-                    # Add to chain but keep it manageable
-                    chain.extend(sub_chain[1:])  # Skip the first item to avoid duplication
-                    break  # Only follow one path to keep it simple
-
+        chain = [start_group]
+        visited = {start_group}  # SINGLE visited set - no copying!
+        current_groups = [start_group]
+        depth = 0
+        
+        while current_groups and depth < max_depth:
+            next_level_groups = []
+            
+            for group in current_groups:
+                try:
+                    nested_groups = group_scanner.process_single_group(group)
+                    if nested_groups:
+                        for nested_group in nested_groups:
+                            # This ACTUALLY prevents infinite loops
+                            if nested_group not in visited:
+                                visited.add(nested_group)
+                                chain.append(nested_group)
+                                next_level_groups.append(nested_group)
+                            # If already visited, we skip it - TRUE loop prevention
+                except Exception as e:
+                    print(f"Error processing group {group}: {e}")
+                    continue
+            
+            current_groups = next_level_groups
+            depth += 1
+        
         return chain
 
     def _extract_share_permissions(self, group):
