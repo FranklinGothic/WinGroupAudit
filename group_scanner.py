@@ -17,7 +17,6 @@ class group_scanner:
         get_children_cmd = commands["group_cmds"]["get_group_children"]
 
         children = command.powershell_execute(get_children_cmd.format(option=parent_group))
-        print(children)
 
         if children:
             children_split = children.splitlines()

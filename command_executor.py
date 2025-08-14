@@ -113,6 +113,22 @@ class command:
         return commands
     
     @staticmethod
+    def set_up_json_dict(audit_type):
+        """
+        Returns a set up dictionary that includes all the necessary audit components
+        """
+        json_setup = {
+            "audit_date": datetime.datetime.now().strftime("%Y-%m-%d"),
+            "server_name": "",
+            f"{audit_type}": []
+        }
+
+        server_name = command.powershell_execute("$env:COMPUTERNAME")
+        json_setup["server_name"] = server_name if server_name else "UNKNOWN"
+
+        return json_setup
+    
+    @staticmethod
     def dump_to_json(data, type):
         """
         Opens the json file and dumps all data into the file
@@ -144,7 +160,7 @@ class command:
         with open(json_path, "r") as file:
             data = json.load(file)
         return data
-    
+
     @staticmethod
     def convert_to_csv():
         """

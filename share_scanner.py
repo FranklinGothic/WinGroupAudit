@@ -6,10 +6,12 @@ import threading
 class share_scanner:
     def __init__(self, shares_to_audit):
         self.shares_to_audit = shares_to_audit
-        self.shares_dictionary = {}
+
+        self.shares_dictionary = command.set_up_json_dict("Shares")
+
         self.lock = threading.Lock()
 
-    def get_share_groups(self, max_workers=1): #create more threads for thoretical greater speed but may cause degregration if too many
+    def get_share_groups(self, max_workers=3): #create more threads for thoretical greater speed but may cause degregration if too many
         """
         This will split the share processing into multiple threads so execution can complete exponetially faster
         """
@@ -21,7 +23,12 @@ class share_scanner:
             for future in as_completed(future_to_share):
                 share_name, share_data = future.result()
                 with self.lock:
-                    self.shares_dictionary[share_name] = share_data
+                    share_object = {
+                        "share_name" : share_name,
+                        "permissions" : share_data
+                        }
+                    self.shares_dictionary["Shares"].append(share_object)
+
         
         return self.shares_dictionary
 
@@ -56,10 +63,14 @@ class share_scanner:
 
         group_data = {}
         nested_groups = group_scanner.process_single_group(group)
-        print(nested_groups)
 
         if nested_groups:
             for nested_group in nested_groups:
                 group_data[nested_group] = self._process_share_group(nested_group, visited.copy())
         
         return group_data
+
+    def _extract_share_permissions(self, group):
+        """
+        This takes a group and checks what it's permissions are for a particular group
+        """
