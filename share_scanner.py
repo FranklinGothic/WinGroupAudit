@@ -42,10 +42,16 @@ class share_scanner:
         share_groups_output = command.powershell_execute(share_groups_cmd.format(option=share_to_audit))
         share_groups = share_groups_output.splitlines()
 
-        share_data = {}
+        share_data = []
 
         for share_group in share_groups:
-            share_data[share_group] = self._process_share_group(share_group)
+            share_group_object = {
+                "account_name" : share_group,
+                "account_type" : "",
+                "access_rights" : "",
+                "nested_accounts" : self._process_share_group(share_group)
+            }
+            share_data.append(share_group_object)
         return share_to_audit, share_data
     
     def _process_share_group(self, group, visited=None):
@@ -57,16 +63,22 @@ class share_scanner:
         
         # Prevent infinite recursion
         if group in visited:
-            return {}
+            return []
         
         visited.add(group)
 
-        group_data = {}
+        group_data = []
         nested_groups = group_scanner.process_single_group(group)
 
         if nested_groups:
             for nested_group in nested_groups:
-                group_data[nested_group] = self._process_share_group(nested_group, visited.copy())
+                group_object = {
+                "account_name" : nested_group,
+                "account_type" : "",
+                "access_rights" : "",
+                "nested_accounts" : self._process_share_group(nested_group, visited.copy())
+                }
+                group_data.append(group_object)
         
         return group_data
 
