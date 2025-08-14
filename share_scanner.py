@@ -40,47 +40,49 @@ class share_scanner:
         commands = command.get_commands_yaml()
         share_groups_cmd = commands["share_cmds"]["associated_groups"]
         share_groups_output = command.powershell_execute(share_groups_cmd.format(option=share_to_audit))
-        share_groups = share_groups_output.splitlines()
 
+        share_groups = [group.strip() for group in share_groups_output.splitlines()]
         share_data = []
 
         for share_group in share_groups:
-            share_group_object = {
+
+            group_chain = self._get_group_chain(share_group)
+
+            permission_entry = {
                 "account_name" : share_group,
                 "account_type" : "",
                 "access_rights" : "",
-                "nested_accounts" : self._process_share_group(share_group)
+                "group_chain": group_chain,
+                "chain_length": len(group_chain)
             }
-            share_data.append(share_group_object)
+            share_data.append(permission_entry)
         return share_to_audit, share_data
     
-    def _process_share_group(self, group, visited=None):
+    def _get_group_chain(self, group, visited=None):
         """
-        This will process the whole line of groups branching from the groups directly under the share
+        Get flattened chain of group memberships
         """
         if visited is None:
             visited = set()
-        
-        # Prevent infinite recursion
-        if group in visited:
-            return []
-        
-        visited.add(group)
 
-        group_data = []
+        if group in visited:
+            return [group]  # Circular reference - just return the group
+
+        visited.add(group)
+        chain = [group]
+
         nested_groups = group_scanner.process_single_group(group)
 
         if nested_groups:
+            # Just get the first level - don't go infinitely deep
             for nested_group in nested_groups:
-                group_object = {
-                "account_name" : nested_group,
-                "account_type" : "",
-                "access_rights" : "",
-                "nested_accounts" : self._process_share_group(nested_group, visited.copy())
-                }
-                group_data.append(group_object)
-        
-        return group_data
+                if nested_group not in visited:
+                    sub_chain = self._get_group_chain(nested_group, visited.copy())
+                    # Add to chain but keep it manageable
+                    chain.extend(sub_chain[1:])  # Skip the first item to avoid duplication
+                    break  # Only follow one path to keep it simple
+
+        return chain
 
     def _extract_share_permissions(self, group):
         """
