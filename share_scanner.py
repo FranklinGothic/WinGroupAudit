@@ -49,7 +49,7 @@ class share_scanner:
 
         for share_group in share_groups:
             # Get complete group chain in one pass - NO RECURSION
-            group_chain = self._get_group_chain_flat(share_group)
+            group_chain = self._get_group_chain(share_group)
             
             permission_entry = {
                 "account_name": share_group,
@@ -62,12 +62,12 @@ class share_scanner:
         
         return share_to_audit, share_data
 
-    def _get_group_chain_flat(self, start_group, max_depth=15):
+    def _get_group_chain(self, start_group, max_depth=15):
         """
-        Breadth-first traversal - NO RECURSION, PROPER loop detection
+        Breadth-first traversal with depth tracking per group
         """
-        chain = [start_group]
-        visited = {start_group}  # SINGLE visited set - no copying!
+        chain = [{"group_name": start_group, "depth": 0}]
+        visited = {start_group} 
         current_groups = [start_group]
         depth = 0
         
@@ -75,20 +75,14 @@ class share_scanner:
             next_level_groups = []
             
             for group in current_groups:
-                try:
-                    nested_groups = group_scanner.process_single_group(group)
-                    if nested_groups:
-                        for nested_group in nested_groups:
-                            # This ACTUALLY prevents infinite loops
-                            if nested_group not in visited:
-                                visited.add(nested_group)
-                                chain.append(nested_group)
-                                next_level_groups.append(nested_group)
-                            # If already visited, we skip it - TRUE loop prevention
-                except Exception as e:
-                    print(f"Error processing group {group}: {e}")
-                    continue
-            
+                nested_groups = group_scanner.process_single_group(group)
+                if nested_groups:
+                    for nested_group in nested_groups:
+                        if nested_group not in visited:
+                            visited.add(nested_group)
+                            chain.append({"group_name": nested_group, "depth": depth + 1})
+                            next_level_groups.append(nested_group)
+        
             current_groups = next_level_groups
             depth += 1
         
