@@ -24,8 +24,8 @@ class share_scanner:
                 share_name, share_data = future.result()
                 with self.lock:
                     share_object = {
-                        "share_name" : share_name,
-                        "permissions" : share_data
+                        "sn" : share_name, #share name
+                        "pm" : share_data #permissions
                         }
                     self.shares_dictionary["Shares"].append(share_object)
 
