@@ -166,7 +166,5 @@ class command:
         """
         Converts audit data to csv
         """
-        csv_summary = []
-
         data = command.read_json("full")
         

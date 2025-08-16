@@ -35,6 +35,8 @@ class group_scanner:
         if not DN:
             account_type = "gp" #group
             DN = command.powershell_execute(group_cmd.format(option=account))
-        
-        DN = DN[1:-1]
+        if not DN:
+            DN = "Builtin"
+        else:
+            DN = DN[1:-1]
         return DN, account_type
