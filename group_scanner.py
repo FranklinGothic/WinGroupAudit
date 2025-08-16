@@ -24,3 +24,11 @@ class group_scanner:
                 children_list.append(child.strip())
 
         return children_list
+
+    @staticmethod
+    def get_account_type(account):
+        commands = command.get_commands_yaml()
+        check_cmd = commands["group_cmds"]["check_group_exists"]
+        class_type = command.powershell_execute(check_cmd.format(option=account))
+
+        return class_type.strip()

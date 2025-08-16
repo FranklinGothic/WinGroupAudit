@@ -8,6 +8,11 @@ share_cmds:
         $shareName = "{option}"
         Get-SmbShareAccess -Name $shareName | ForEach-Object {{ $_.AccountName -replace '^.*\\', '' }}
 
+    access_rights: |
+        $shareName = "{share}"
+        $accountName = "{account}"
+        Get-SmbShareAccess -Name $shareName | Where-Object {{ $_.AccountName -like "*$accountName" }} | Select-Object -ExpandProperty AccessRight -First 1
+
 group_cmds:
     # Check if an object is a group by examining its object class
     group_filtering: |

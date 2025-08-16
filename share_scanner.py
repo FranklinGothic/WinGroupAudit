@@ -49,24 +49,25 @@ class share_scanner:
 
         for share_group in share_groups:
             # Get complete group chain in one pass - NO RECURSION
-            group_chain = self._get_group_chain(share_group)
+            group_chain = self._get_group_chain(share_group, share_to_audit)
             
             permission_entry = {
-                "account_name": share_group,
-                "account_type": "Group",
-                "access_rights": "Unknown",
                 "group_chain": group_chain,
-                "chain_length": len(group_chain)
             }
             share_data.append(permission_entry)
         
         return share_to_audit, share_data
 
-    def _get_group_chain(self, start_group, max_depth=15):
+    def _get_group_chain(self, start_group, share, max_depth=15):
         """
-        Breadth-first traversal with depth tracking per group
+        Breadth-first traversal with depth tracking per group - AI assisted bc data storage hard :(
         """
-        chain = [{"group_name": start_group, "depth": 0}]
+        inherited_access = self._extract_share_permissions(start_group, share)
+        chain = [{"group_name": start_group, 
+                "account_type": group_scanner.get_account_type(nested_group),
+                "access_rights": inherited_access,
+                "depth": 0
+                }]
         visited = {start_group} 
         current_groups = [start_group]
         depth = 0
@@ -80,7 +81,11 @@ class share_scanner:
                     for nested_group in nested_groups:
                         if nested_group not in visited:
                             visited.add(nested_group)
-                            chain.append({"group_name": nested_group, "depth": depth + 1})
+                            chain.append({"group_name": nested_group, 
+                                        "account_type": group_scanner.get_account_type(nested_group),
+                                        "access_rights" : inherited_access,
+                                        "depth": depth + 1
+                                        })
                             next_level_groups.append(nested_group)
         
             current_groups = next_level_groups
@@ -88,7 +93,12 @@ class share_scanner:
         
         return chain
 
-    def _extract_share_permissions(self, group):
+    def _extract_share_permissions(self, account, share):
         """
         This takes a group and checks what it's permissions are for a particular group
         """
+        commands = command.get_commands_yaml()
+        access_cmd = commands["share_cmds"]["access_rights"]
+        access = command.powershell_execute(access_cmd.format(share=share, account=account))
+
+        return access
