@@ -3,6 +3,27 @@
   "server_name": "WIN-TMDGDFJLMU8",
   "Shares": [
     {
+      "share_name": "Joe",
+      "permissions": [
+        [
+          {
+            "an": "Joe",
+            "dn": "CN=Joe,OU=Finance,DC=demo,DC=lab",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 0
+          },
+          {
+            "an": "Pedro",
+            "dn": "CN=Pedro,OU=Finance,DC=demo,DC=lab",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 1
+          }
+        ]
+      ]
+    },
+    {
       "share_name": "Finance_Report",
       "permissions": [
         [
@@ -37,9 +58,9 @@
         ],
         [
           {
-            "an": "Greg_Finance",
-            "dn": "",
-            "at": "gp",
+            "an": "Greg",
+            "dn": "CN=Greg,OU=Finance,DC=demo,DC=lab",
+            "at": "ur",
             "ar": "Read",
             "dp": 0
           }
@@ -47,22 +68,45 @@
       ]
     },
     {
-      "share_name": "Joe",
+      "share_name": "Users",
       "permissions": [
         [
           {
-            "an": "Joe",
-            "dn": "CN=Joe,OU=Finance,DC=demo,DC=lab",
+            "an": "Administrators",
+            "dn": "CN=Administrators,CN=Builtin,DC=demo,DC=lab",
             "at": "gp",
             "ar": "Full",
             "dp": 0
           },
           {
-            "an": "Pedro",
-            "dn": "CN=Pedro,OU=Finance,DC=demo,DC=lab",
+            "an": "Domain Admins",
+            "dn": "CN=Domain Admins,CN=Users,DC=demo,DC=lab",
             "at": "gp",
             "ar": "Full",
             "dp": 1
+          },
+          {
+            "an": "Enterprise Admins",
+            "dn": "CN=Enterprise Admins,CN=Users,DC=demo,DC=lab",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 1
+          },
+          {
+            "an": "Administrator",
+            "dn": "CN=Administrator,CN=Users,DC=demo,DC=lab",
+            "at": "ur",
+            "ar": "Full",
+            "dp": 1
+          }
+        ],
+        [
+          {
+            "an": "Everyone",
+            "dn": "",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 0
           }
         ]
       ]
@@ -110,8 +154,8 @@
           },
           {
             "an": "Sandra",
-            "dn": "",
-            "at": "gp",
+            "dn": "CN=Sandra,OU=Finance,DC=demo,DC=lab",
+            "at": "ur",
             "ar": "Full",
             "dp": 1
           },
@@ -128,50 +172,6 @@
             "at": "gp",
             "ar": "Full",
             "dp": 1
-          }
-        ]
-      ]
-    },
-    {
-      "share_name": "Users",
-      "permissions": [
-        [
-          {
-            "an": "Administrators",
-            "dn": "CN=Administrators,CN=Builtin,DC=demo,DC=lab",
-            "at": "gp",
-            "ar": "Full",
-            "dp": 0
-          },
-          {
-            "an": "Domain Admins",
-            "dn": "CN=Domain Admins,CN=Users,DC=demo,DC=lab",
-            "at": "gp",
-            "ar": "Full",
-            "dp": 1
-          },
-          {
-            "an": "Enterprise Admins",
-            "dn": "CN=Enterprise Admins,CN=Users,DC=demo,DC=lab",
-            "at": "gp",
-            "ar": "Full",
-            "dp": 1
-          },
-          {
-            "an": "Administrator",
-            "dn": "",
-            "at": "gp",
-            "ar": "Full",
-            "dp": 1
-          }
-        ],
-        [
-          {
-            "an": "Everyone",
-            "dn": "",
-            "at": "gp",
-            "ar": "Full",
-            "dp": 0
           }
         ]
       ]
