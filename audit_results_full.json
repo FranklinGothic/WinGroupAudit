@@ -5,189 +5,175 @@
     {
       "share_name": "Joe",
       "permissions": [
-        {
-          "group_chain": [
-            {
-              "account_name": "Joe",
-              "distinguished_name": "\"CN=Joe,OU=Finance,DC=demo,DC=lab\"",
-              "account_type": "group",
-              "access_rights": "Full",
-              "depth": 0
-            },
-            {
-              "account_name": "Pedro",
-              "distinguished_name": "\"CN=Pedro,OU=Finance,DC=demo,DC=lab\"",
-              "account_type": "group",
-              "access_rights": "Full",
-              "depth": 1
-            }
-          ]
-        }
+        [
+          {
+            "an": "Joe",
+            "dn": "\"CN=Joe,OU=Finance,DC=demo,DC=lab\"",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 0
+          },
+          {
+            "an": "Pedro",
+            "dn": "\"CN=Pedro,OU=Finance,DC=demo,DC=lab\"",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 1
+          }
+        ]
       ]
     },
     {
       "share_name": "Finance_Report",
       "permissions": [
-        {
-          "group_chain": [
-            {
-              "account_name": "Finance",
-              "distinguished_name": "\"CN=Finance,OU=Finance,DC=demo,DC=lab\"",
-              "account_type": "group",
-              "access_rights": "Full",
-              "depth": 0
-            },
-            {
-              "account_name": "MoneyTeam",
-              "distinguished_name": "\"CN=MoneyTeam,OU=Finance,DC=demo,DC=lab\"",
-              "account_type": "group",
-              "access_rights": "Full",
-              "depth": 1
-            },
-            {
-              "account_name": "DeepMoney",
-              "distinguished_name": "\"CN=DeepMoney,OU=Finance,DC=demo,DC=lab\"",
-              "account_type": "group",
-              "access_rights": "Full",
-              "depth": 2
-            },
-            {
-              "account_name": "Marketing",
-              "distinguished_name": "\"CN=Marketing,OU=Finance,DC=demo,DC=lab\"",
-              "account_type": "group",
-              "access_rights": "Full",
-              "depth": 2
-            }
-          ]
-        },
-        {
-          "group_chain": [
-            {
-              "account_name": "Greg_Finance",
-              "distinguished_name": "",
-              "account_type": "group",
-              "access_rights": "Read",
-              "depth": 0
-            }
-          ]
-        }
+        [
+          {
+            "an": "Finance",
+            "dn": "\"CN=Finance,OU=Finance,DC=demo,DC=lab\"",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 0
+          },
+          {
+            "an": "MoneyTeam",
+            "dn": "\"CN=MoneyTeam,OU=Finance,DC=demo,DC=lab\"",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 1
+          },
+          {
+            "an": "DeepMoney",
+            "dn": "\"CN=DeepMoney,OU=Finance,DC=demo,DC=lab\"",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 2
+          },
+          {
+            "an": "Marketing",
+            "dn": "\"CN=Marketing,OU=Finance,DC=demo,DC=lab\"",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 2
+          }
+        ],
+        [
+          {
+            "an": "Greg_Finance",
+            "dn": "",
+            "at": "gp",
+            "ar": "Read",
+            "dp": 0
+          }
+        ]
       ]
     },
     {
       "share_name": "Users",
       "permissions": [
-        {
-          "group_chain": [
-            {
-              "account_name": "Administrators",
-              "distinguished_name": "\"CN=Administrators,CN=Builtin,DC=demo,DC=lab\"",
-              "account_type": "group",
-              "access_rights": "Full",
-              "depth": 0
-            },
-            {
-              "account_name": "Domain Admins",
-              "distinguished_name": "\"CN=Domain Admins,CN=Users,DC=demo,DC=lab\"",
-              "account_type": "group",
-              "access_rights": "Full",
-              "depth": 1
-            },
-            {
-              "account_name": "Enterprise Admins",
-              "distinguished_name": "\"CN=Enterprise Admins,CN=Users,DC=demo,DC=lab\"",
-              "account_type": "group",
-              "access_rights": "Full",
-              "depth": 1
-            },
-            {
-              "account_name": "Administrator",
-              "distinguished_name": "\"CN=Administrator,CN=Users,DC=demo,DC=lab\"",
-              "account_type": "user",
-              "access_rights": "Full",
-              "depth": 1
-            }
-          ]
-        },
-        {
-          "group_chain": [
-            {
-              "account_name": "Everyone",
-              "distinguished_name": "",
-              "account_type": "group",
-              "access_rights": "Full",
-              "depth": 0
-            }
-          ]
-        }
+        [
+          {
+            "an": "Administrators",
+            "dn": "\"CN=Administrators,CN=Builtin,DC=demo,DC=lab\"",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 0
+          },
+          {
+            "an": "Domain Admins",
+            "dn": "\"CN=Domain Admins,CN=Users,DC=demo,DC=lab\"",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 1
+          },
+          {
+            "an": "Enterprise Admins",
+            "dn": "\"CN=Enterprise Admins,CN=Users,DC=demo,DC=lab\"",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 1
+          },
+          {
+            "an": "Administrator",
+            "dn": "\"CN=Administrator,CN=Users,DC=demo,DC=lab\"",
+            "at": "ur",
+            "ar": "Full",
+            "dp": 1
+          }
+        ],
+        [
+          {
+            "an": "Everyone",
+            "dn": "",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 0
+          }
+        ]
       ]
     },
     {
       "share_name": "HiddenShare$",
       "permissions": [
-        {
-          "group_chain": [
-            {
-              "account_name": "Finance",
-              "distinguished_name": "\"CN=Finance,OU=Finance,DC=demo,DC=lab\"",
-              "account_type": "group",
-              "access_rights": "Read",
-              "depth": 0
-            },
-            {
-              "account_name": "MoneyTeam",
-              "distinguished_name": "\"CN=MoneyTeam,OU=Finance,DC=demo,DC=lab\"",
-              "account_type": "group",
-              "access_rights": "Read",
-              "depth": 1
-            },
-            {
-              "account_name": "DeepMoney",
-              "distinguished_name": "\"CN=DeepMoney,OU=Finance,DC=demo,DC=lab\"",
-              "account_type": "group",
-              "access_rights": "Read",
-              "depth": 2
-            },
-            {
-              "account_name": "Marketing",
-              "distinguished_name": "\"CN=Marketing,OU=Finance,DC=demo,DC=lab\"",
-              "account_type": "group",
-              "access_rights": "Read",
-              "depth": 2
-            }
-          ]
-        },
-        {
-          "group_chain": [
-            {
-              "account_name": "Tech",
-              "distinguished_name": "\"CN=Tech,OU=IT,DC=demo,DC=lab\"",
-              "account_type": "group",
-              "access_rights": "Full",
-              "depth": 0
-            },
-            {
-              "account_name": "Sandra",
-              "distinguished_name": "\"CN=Sandra,OU=Finance,DC=demo,DC=lab\"",
-              "account_type": "user",
-              "access_rights": "Full",
-              "depth": 1
-            },
-            {
-              "account_name": "IT",
-              "distinguished_name": "\"CN=IT,OU=IT,DC=demo,DC=lab\"",
-              "account_type": "group",
-              "access_rights": "Full",
-              "depth": 1
-            },
-            {
-              "account_name": "Workers",
-              "distinguished_name": "\"CN=Workers,OU=IT,DC=demo,DC=lab\"",
-              "account_type": "group",
-              "access_rights": "Full",
-              "depth": 1
-            }
-          ]
-        }
+        [
+          {
+            "an": "Finance",
+            "dn": "\"CN=Finance,OU=Finance,DC=demo,DC=lab\"",
+            "at": "gp",
+            "ar": "Read",
+            "dp": 0
+          },
+          {
+            "an": "MoneyTeam",
+            "dn": "\"CN=MoneyTeam,OU=Finance,DC=demo,DC=lab\"",
+            "at": "gp",
+            "ar": "Read",
+            "dp": 1
+          },
+          {
+            "an": "DeepMoney",
+            "dn": "\"CN=DeepMoney,OU=Finance,DC=demo,DC=lab\"",
+            "at": "gp",
+            "ar": "Read",
+            "dp": 2
+          },
+          {
+            "an": "Marketing",
+            "dn": "\"CN=Marketing,OU=Finance,DC=demo,DC=lab\"",
+            "at": "gp",
+            "ar": "Read",
+            "dp": 2
+          }
+        ],
+        [
+          {
+            "an": "Tech",
+            "dn": "\"CN=Tech,OU=IT,DC=demo,DC=lab\"",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 0
+          },
+          {
+            "an": "Sandra",
+            "dn": "\"CN=Sandra,OU=Finance,DC=demo,DC=lab\"",
+            "at": "ur",
+            "ar": "Full",
+            "dp": 1
+          },
+          {
+            "an": "IT",
+            "dn": "\"CN=IT,OU=IT,DC=demo,DC=lab\"",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 1
+          },
+          {
+            "an": "Workers",
+            "dn": "\"CN=Workers,OU=IT,DC=demo,DC=lab\"",
+            "at": "gp",
+            "ar": "Full",
+            "dp": 1
+          }
+        ]
       ]
     }
   ]
