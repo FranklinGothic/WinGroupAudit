@@ -37,8 +37,10 @@ group_cmds:
 
     get_distinguished_name_group: |
         $groupName = "{option}"
-        dsquery group -name $groupName
+        $groupDN = dsquery group -name $groupName
+        if ($groupDN) {{ ([ADSI]"LDAP://$groupDN").canonicalName }} else {{ "" }}
 
     get_distinguished_name_user: |
         $userName = "{option}"
-        dsquery user -name $userName
+        $userDN = dsquery user -name $userName  
+        if ($userDN) {{ ([ADSI]"LDAP://$userDN").canonicalName }} else {{ "" }}
