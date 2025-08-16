@@ -30,10 +30,10 @@ class group_scanner:
         user_cmd = commands["group_cmds"]["get_distinguished_name_user"]
         group_cmd = commands["group_cmds"]["get_distinguished_name_group"]
 
-        account_type = "user"
+        account_type = "ur" #user
         DN = command.powershell_execute(user_cmd.format(option=account))
         if not DN:
-            account_type = "group"
+            account_type = "gp" #group
             DN = command.powershell_execute(group_cmd.format(option=account))
         
         return DN, account_type
