@@ -41,4 +41,4 @@ group_cmds:
 
     get_distinguished_name_user: |
         $userName = "{option}"
-        dsquery user -name $user
+        dsquery user -name $userName
