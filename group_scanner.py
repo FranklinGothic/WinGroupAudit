@@ -36,5 +36,5 @@ class group_scanner:
             account_type = "gp" #group
             DN = command.powershell_execute(group_cmd.format(option=account))
         
-        
+        DN = DN[2:-2]
         return DN, account_type
