@@ -64,7 +64,7 @@ class share_scanner:
         """
         inherited_access = self._extract_share_permissions(start_group, share)
         chain = [{"group_name": start_group, 
-                "account_type": group_scanner.get_account_type(nested_group),
+                "account_type": group_scanner.get_account_type(start_group),
                 "access_rights": inherited_access,
                 "depth": 0
                 }]
