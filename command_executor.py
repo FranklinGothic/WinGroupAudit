@@ -142,7 +142,7 @@ class command:
             json_path = f"audit_results_{type}.json"
 
         with open(json_path, "w") as file:
-            json.dump(data, file, indent=2)
+            json.dump(data, file)
         print(f"Dumped to {type} json!")
 
     @staticmethod
