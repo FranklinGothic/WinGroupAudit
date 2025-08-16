@@ -3,8 +3,8 @@
  "server_name": "WIN-TMDGDFJLMU8",
  "Shares": [
   {
-   "share_name": "Joe",
-   "permissions": [
+   "sn": "Joe",
+   "pm": [
     [
      {
       "an": "Joe",
@@ -24,8 +24,8 @@
    ]
   },
   {
-   "share_name": "Finance_Report",
-   "permissions": [
+   "sn": "Finance_Report",
+   "pm": [
     [
      {
       "an": "Finance",
@@ -68,8 +68,8 @@
    ]
   },
   {
-   "share_name": "Users",
-   "permissions": [
+   "sn": "Users",
+   "pm": [
     [
      {
       "an": "Administrators",
@@ -112,8 +112,8 @@
    ]
   },
   {
-   "share_name": "HiddenShare$",
-   "permissions": [
+   "sn": "HiddenShare$",
+   "pm": [
     [
      {
       "an": "Finance",
