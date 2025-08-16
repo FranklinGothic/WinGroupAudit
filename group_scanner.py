@@ -26,9 +26,15 @@ class group_scanner:
         return children_list
 
     @staticmethod
-    def get_account_type(account):
+    def get_account_info(account):
         commands = command.get_commands_yaml()
-        check_cmd = commands["group_cmds"]["check_group_exists"]
-        class_type = command.powershell_execute(check_cmd.format(option=account))
+        user_cmd = commands["group_cmds"]["get_distinguished_name_user"]
+        group_cmd = commands["group_cmds"]["get_distinguished_name_group"]
 
-        return class_type.strip()
+        account_type = "user"
+        DN = command.powershell_execute(user_cmd.format(option=account))
+        if not DN:
+            account_type = "group"
+            DN = command.powershell_execute(group_cmd.format(option=account))
+        
+        return DN, account_type

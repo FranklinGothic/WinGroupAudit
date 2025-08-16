@@ -34,3 +34,11 @@ group_cmds:
     check_group_name: |
         $groupName = "{option}"
         Get-ADGroup -Identity $groupName | Select-Object -ExpandProperty Name
+
+    get_distinguished_name_group: |
+        $groupName = "{option}"
+        dsquery group -name $groupName
+
+    get_distinguished_name_user: |
+        $userName = "{option}"
+        dsquery user -name $userName

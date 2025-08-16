@@ -63,8 +63,10 @@ class share_scanner:
         Breadth-first traversal with depth tracking per group - AI assisted bc data storage hard :(
         """
         inherited_access = self._extract_share_permissions(start_group, share)
-        chain = [{"group_name": start_group, 
-                "account_type": group_scanner.get_account_type(start_group),
+        distinguished_name, account_type = group_scanner.get_account_info(start_group)
+        chain = [{"account_name": start_group, 
+                "distinguished_name": distinguished_name,
+                "account_type": account_type,
                 "access_rights": inherited_access,
                 "depth": 0
                 }]
@@ -81,8 +83,11 @@ class share_scanner:
                     for nested_group in nested_groups:
                         if nested_group not in visited:
                             visited.add(nested_group)
-                            chain.append({"group_name": nested_group, 
-                                        "account_type": group_scanner.get_account_type(nested_group),
+
+                            distinguished_name, account_type = group_scanner.get_account_info(nested_group)
+                            chain.append({"account_name": nested_group,
+                                        "distinguished_name": distinguished_name,
+                                        "account_type": account_type,
                                         "access_rights" : inherited_access,
                                         "depth": depth + 1
                                         })
