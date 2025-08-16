@@ -10,7 +10,6 @@ class group_scanner:
         """
         This will process a single group and return all nested groups
         """
-        print(f"Working on {parent_group}")
         children_list = []
         
         commands = command.get_commands_yaml()
