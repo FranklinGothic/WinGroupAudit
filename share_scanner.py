@@ -52,7 +52,7 @@ class share_scanner:
             group_chain = self._get_group_chain(share_group, share_to_audit)
             
             permission_entry = {
-                "group_chain": group_chain,
+                group_chain
             }
             share_data.append(permission_entry)
         
@@ -64,11 +64,11 @@ class share_scanner:
         """
         inherited_access = self._extract_share_permissions(start_group, share)
         distinguished_name, account_type = group_scanner.get_account_info(start_group)
-        chain = [{"account_name": start_group, 
-                "distinguished_name": distinguished_name,
-                "account_type": account_type,
-                "access_rights": inherited_access,
-                "depth": 0
+        chain = [{"an": start_group, #account name
+                "dn": distinguished_name,  #distinguished name
+                "at": account_type, #account type
+                "ar": inherited_access, #account rights
+                "dp": 0 #depth
                 }]
         visited = {start_group} 
         current_groups = [start_group]
