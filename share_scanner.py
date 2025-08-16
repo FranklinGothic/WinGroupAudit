@@ -51,9 +51,7 @@ class share_scanner:
             # Get complete group chain in one pass - NO RECURSION
             group_chain = self._get_group_chain(share_group, share_to_audit)
             
-            permission_entry = {
-                group_chain
-            }
+            permission_entry = group_chain
             share_data.append(permission_entry)
         
         return share_to_audit, share_data
@@ -85,11 +83,11 @@ class share_scanner:
                             visited.add(nested_group)
 
                             distinguished_name, account_type = group_scanner.get_account_info(nested_group)
-                            chain.append({"account_name": nested_group,
-                                        "distinguished_name": distinguished_name,
-                                        "account_type": account_type,
-                                        "access_rights" : inherited_access,
-                                        "depth": depth + 1
+                            chain.append({"an": nested_group,
+                                        "dn": distinguished_name,
+                                        "at": account_type,
+                                        "ar" : inherited_access,
+                                        "dp": depth + 1
                                         })
                             next_level_groups.append(nested_group)
         
