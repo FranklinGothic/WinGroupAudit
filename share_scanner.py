@@ -83,12 +83,11 @@ class share_scanner:
                         if nested_group not in visited:
                             visited.add(nested_group)
 
-                            nested_access = self._extract_share_permissions(nested_group, share)
                             distinguished_name, account_type = group_scanner.get_account_info(nested_group)
                             chain.append({"an": nested_group,
                                         "dn": distinguished_name,
                                         "at": account_type,
-                                        "ar" : nested_access,
+                                        "ar" : start_access,
                                         "dp": depth + 1
                                         })
                             next_level_groups.append(nested_group)
