@@ -20,7 +20,7 @@ class main:
         cli_UI = genrl_cli()
         #self.chosen_audit_type = cli_UI.get_audit_type() #- Unused for now as shares are the only option
         self.chosen_audit_type = "Shares" #set to shares as its the only option for now
-        self.chosen_groups = cli_UI.get_groups()
+        #self.chosen_groups = cli_UI.get_groups() - unused for now as group filtering not implemented
 
     def run_audit(self):
         """
@@ -38,18 +38,17 @@ class main:
         
         command.dump_to_json(results, "full")
 
-
+#Removed for now as not implemented yet
+"""
         filter = filter_groups(self.chosen_groups)
         filtered_data = filter.filter_groups()
         command.dump_to_json(filtered_data, "filtered")
 
         present_data = data_present_cli(self.chosen_audit_type)
         present_data.present()
+"""
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except Exception as e:
-        print(f"Error: {e}")
-        input("Press Enter to exit...")
+    main()
+    input("Press Enter to exit...")
