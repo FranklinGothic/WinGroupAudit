@@ -168,32 +168,32 @@ class command:
         """
         pd_data = command._json_to_dataframe()
 
-        pd_data.to_csv("C:\Projects\WinGroupAudit\Audit_Results.csv")
+        pd_data.to_csv('Audit_Results.csv')
 
-@staticmethod
-def _json_to_dataframe():
-    """
-    Converts json to a pandas dataframe
-    """
-    data = command.read_json("full")
-    
-    rows = []
-    for share in data["Shares"]:
-        share_name = share["sn"]  #share name
+    @staticmethod
+    def _json_to_dataframe():
+        """
+        Converts json to a pandas dataframe
+        """
+        data = command.read_json("full")
         
-        for chain_index, permission_chain in enumerate(share["pm"]):  #permissions
-            for account in permission_chain:
-                rows.append({
-                    'Audit_Date': data["audit_date"],
-                    'Server_Name': data["server_name"], 
-                    'Share_Name': share_name,
-                    'Account_Name': account["an"],       #account name
-                    'Distinguished_Name': account["dn"], #distinguished name
-                    'Account_Type': account["at"],       #account type  
-                    'Access_Rights': account["ar"],      #access rights
-                    'Nested_Depth': account["dp"],       #depth
-                    'Chain_Index': chain_index
-                })
+        rows = []
+        for share in data["Shares"]:
+            share_name = share["sn"]  #share name
+            
+            for chain_index, permission_chain in enumerate(share["pm"]):  #permissions
+                for account in permission_chain:
+                    rows.append({
+                        'Audit_Date': data["audit_date"],
+                        'Server_Name': data["server_name"], 
+                        'Share_Name': share_name,
+                        'Account_Name': account["an"],       #account name
+                        'Distinguished_Name': account["dn"], #distinguished name
+                        'Account_Type': account["at"],       #account type  
+                        'Access_Rights': account["ar"],      #access rights
+                        'Nested_Depth': account["dp"],       #depth
+                        'Chain_Index': chain_index
+                    })
     
-    df = pd.DataFrame(rows)
-    return df
+        df = pd.DataFrame(rows)
+        return df

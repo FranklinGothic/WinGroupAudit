@@ -1,5 +1,5 @@
 {
- "audit_date": "2025-08-16",
+ "audit_date": "2025-08-18",
  "server_name": "WIN-TMDGDFJLMU8",
  "Shares": [
   {
@@ -103,7 +103,7 @@
     [
      {
       "an": "Everyone",
-      "dn": "",
+      "dn": "Builtin",
       "at": "gp",
       "ar": "Full",
       "dp": 0

@@ -1,0 +1,21 @@
+,Audit_Date,Server_Name,Share_Name,Account_Name,Distinguished_Name,Account_Type,Access_Rights,Nested_Depth,Chain_Index
+0,2025-08-18,WIN-TMDGDFJLMU8,Joe,Joe,"CN=Joe,OU=Finance,DC=demo,DC=lab",gp,Full,0,0
+1,2025-08-18,WIN-TMDGDFJLMU8,Joe,Pedro,"CN=Pedro,OU=Finance,DC=demo,DC=lab",gp,Full,1,0
+2,2025-08-18,WIN-TMDGDFJLMU8,Finance_Report,Finance,"CN=Finance,OU=Finance,DC=demo,DC=lab",gp,Full,0,0
+3,2025-08-18,WIN-TMDGDFJLMU8,Finance_Report,MoneyTeam,"CN=MoneyTeam,OU=Finance,DC=demo,DC=lab",gp,Full,1,0
+4,2025-08-18,WIN-TMDGDFJLMU8,Finance_Report,DeepMoney,"CN=DeepMoney,OU=Finance,DC=demo,DC=lab",gp,Full,2,0
+5,2025-08-18,WIN-TMDGDFJLMU8,Finance_Report,Marketing,"CN=Marketing,OU=Finance,DC=demo,DC=lab",gp,Full,2,0
+6,2025-08-18,WIN-TMDGDFJLMU8,Finance_Report,Greg,"CN=Greg,OU=Finance,DC=demo,DC=lab",ur,Read,0,1
+7,2025-08-18,WIN-TMDGDFJLMU8,Users,Administrators,"CN=Administrators,CN=Builtin,DC=demo,DC=lab",gp,Full,0,0
+8,2025-08-18,WIN-TMDGDFJLMU8,Users,Domain Admins,"CN=Domain Admins,CN=Users,DC=demo,DC=lab",gp,Full,1,0
+9,2025-08-18,WIN-TMDGDFJLMU8,Users,Enterprise Admins,"CN=Enterprise Admins,CN=Users,DC=demo,DC=lab",gp,Full,1,0
+10,2025-08-18,WIN-TMDGDFJLMU8,Users,Administrator,"CN=Administrator,CN=Users,DC=demo,DC=lab",ur,Full,1,0
+11,2025-08-18,WIN-TMDGDFJLMU8,Users,Everyone,Builtin,gp,Full,0,1
+12,2025-08-18,WIN-TMDGDFJLMU8,HiddenShare$,Finance,"CN=Finance,OU=Finance,DC=demo,DC=lab",gp,Read,0,0
+13,2025-08-18,WIN-TMDGDFJLMU8,HiddenShare$,MoneyTeam,"CN=MoneyTeam,OU=Finance,DC=demo,DC=lab",gp,Read,1,0
+14,2025-08-18,WIN-TMDGDFJLMU8,HiddenShare$,DeepMoney,"CN=DeepMoney,OU=Finance,DC=demo,DC=lab",gp,Read,2,0
+15,2025-08-18,WIN-TMDGDFJLMU8,HiddenShare$,Marketing,"CN=Marketing,OU=Finance,DC=demo,DC=lab",gp,Read,2,0
+16,2025-08-18,WIN-TMDGDFJLMU8,HiddenShare$,Tech,"CN=Tech,OU=IT,DC=demo,DC=lab",gp,Full,0,1
+17,2025-08-18,WIN-TMDGDFJLMU8,HiddenShare$,Sandra,"CN=Sandra,OU=Finance,DC=demo,DC=lab",ur,Full,1,1
+18,2025-08-18,WIN-TMDGDFJLMU8,HiddenShare$,IT,"CN=IT,OU=IT,DC=demo,DC=lab",gp,Full,1,1
+19,2025-08-18,WIN-TMDGDFJLMU8,HiddenShare$,Workers,"CN=Workers,OU=IT,DC=demo,DC=lab",gp,Full,1,1
