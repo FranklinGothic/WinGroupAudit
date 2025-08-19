@@ -38,6 +38,8 @@ class main:
         
         command.dump_to_json(results, "full")
 
+        command.convert_to_csv()
+
 #Removed for now as not implemented yet
 """
         filter = filter_groups(self.chosen_groups)
