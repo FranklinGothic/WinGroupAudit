@@ -11,7 +11,7 @@ class share_scanner:
 
         self.lock = threading.Lock()
 
-    def get_share_groups(self, max_workers=3): #create more threads for thoretical greater speed but may cause degregration if too many
+    def get_share_groups(self, max_workers=5): #create more threads for thoretical greater speed but may cause degregration if too many
         """
         This will split the share processing into multiple threads so execution can complete exponetially faster
         """
@@ -83,7 +83,7 @@ class share_scanner:
                         if nested_group not in visited:
                             visited.add(nested_group)
 
-                            nested_access = self._extract_share_permissions(start_group, share)
+                            nested_access = self._extract_share_permissions(nested_access, share)
                             distinguished_name, account_type = group_scanner.get_account_info(nested_group)
                             chain.append({"an": nested_group,
                                         "dn": distinguished_name,
