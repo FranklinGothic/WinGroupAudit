@@ -310,11 +310,11 @@ class data_present_cli:
                     self._print(gr_dict, gr_dict["dp"]*3)
 
     def _print(self, dict, indent):
-        name = dict["at"]
-        if name == "gp":
+        name = dict["an"]
+        account_type = dict["at"]
+        if account_type == "gp":
             print(" "*indent + f"[GROUP]: {name}")
-        elif name == "ur":
+        elif account_type == "ur":
             print(" "*indent + f"[USERS]: {name}")
         else:
             print(" "*indent + f"[UNKWN]: {name}")
-        
