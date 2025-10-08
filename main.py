@@ -38,7 +38,13 @@ class main:
         
         command.dump_to_json(results, "full")
 
+        #Just for testing purposes when I move over to go ima code this better but demo is demo
+
         command.convert_to_csv()
+        present_data = data_present_cli(self.chosen_audit_type)
+        present_data.present()
+
+
 
 #Removed for now as not implemented yet
 """
